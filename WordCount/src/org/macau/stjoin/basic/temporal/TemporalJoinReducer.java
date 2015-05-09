@@ -9,12 +9,10 @@ import java.util.Map;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.Mapper.Context;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
-
 import org.macau.stjoin.basic.temporal.TemporalComparator;;
 
 
@@ -165,48 +163,13 @@ public class TemporalJoinReducer extends
 							}
 						}
 						
-//						// for the adjacent tail
-//						if(sMap.containsKey(i+1)){
-//							
-//							for(int m = 0; m < sMap.get(i+1).size();m++){
-//								
-//								FlickrValue value3 = sMap.get(i+1).get(m);
-//								
-//								tCompareCount++;
-//								if(FlickrSimilarityUtil.TemporalSimilarity(value1, value3)){
-//									
-////									if(FlickrSimilarityUtil.SpatialSimilarity(value1, value3) && FlickrSimilarityUtil.TextualSimilarity(value1, value3)){
-//									sCompareCount++;
-//									if(FlickrSimilarityUtil.SpatialSimilarity(value1, value3)){
-//										
-//										oCompareCount++;
-//										if(FlickrSimilarityUtil.TextualSimilarity(value1, value3)){
-//										
-//											long ridA = value1.getId();
-//								            long ridB = value3.getId();
-//								            
-//								            if (ridA < ridB) {
-//								                long rid = ridA;
-//								                ridA = ridB;
-//								                ridB = rid;
-//								            }
-//								            
-//											text.set("" + ridA + "%" + ridB);
-//								            context.write(text, new Text(""));
-//										}
-//									}
-//								}else{
-//									break;
-//								}
-//								
-//							}
-//						}
-						
 					}
 				}
-			}
+				
 
-			
+			}
+				
+
 			rMap.clear();
 			sMap.clear();
 		}
