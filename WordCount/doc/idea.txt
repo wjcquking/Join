@@ -1,0 +1,1 @@
+1.treat the text as number and using the number to calculate the similarity join value

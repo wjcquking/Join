@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//src/org/macau/flickr/knn/exact/preprocessing/kmeans/kmeans.java=UTF-8
+encoding//src/org/macau/flickr/knn/exact/preprocessing/kmeans/kmeans_data.java=GB2312
+encoding//src/org/macau/flickr/knn/exact/preprocessing/kmeans/kmeans_param.java=UTF-8
+encoding//src/org/macau/flickr/knn/exact/preprocessing/kmeans/kmeans_result.java=GB2312
