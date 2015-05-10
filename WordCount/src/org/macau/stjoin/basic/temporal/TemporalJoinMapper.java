@@ -14,7 +14,6 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Mapper.Context;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
@@ -73,28 +72,13 @@ public class TemporalJoinMapper extends
 		outputValue.setTiles(value.toString().split(":")[5]);
 		outputValue.setOthers(value.toString().split(":")[6]);
 		
-//		System.out.println(value.toString().split(":")[5]);
 		
 		outputValue.setTimestamp(timestamp);
 		
-		double thres = Math.pow(FlickrSimilarityUtil.DISTANCE_THRESHOLD, 0.5);
-		
-		int x = (int) (lat /thres);
-		int y = (int)(lon/thres );
-		
-//		if(tag == FlickrSimilarityUtil.S_tag && timeInterval % 10 == 0){
-//			
-//			outputKey.set(timeInterval/10 - 1);
-//			context.write(outputKey, outputValue);
-//			
-//		}
-//		
-//		outputKey.set(timeInterval/10);
-//		context.write(outputKey, outputValue);
-//		
+
 		//The Original temporal partition, for each time interval, it is a partition, for the R
 		//the time interval is the key, while for the S set, it should set to three time interval
-		long myKey = (long) (timeInterval * 1e7 + x * 1e3 + y);
+//		long myKey = (long) (timeInterval * 1e7 + x * 1e3 + y);
 		
 		if(tag == FlickrSimilarityUtil.S_tag){
 			
