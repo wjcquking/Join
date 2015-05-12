@@ -74,10 +74,15 @@ public class FlickrSimilarityJoin {
 			
 			
 			
-			state = org.macau.stjoin.group.join.TemporalJoinJob.TemporalSimilarityBasicJoin(conf,Integer.parseInt(args[1]));
+//			state = org.macau.stjoin.group.join.TemporalJoinJob.TemporalSimilarityBasicJoin(conf,Integer.parseInt(args[1]));
+			state = org.macau.stjoin.ego.optimal.EGOOptimalJoinJob.EGOOptimalJoin(conf,Integer.parseInt(args[1]));
 			
+		}else if(args[0].equals("egoreducer")){
 			
+			state = org.macau.stjoin.ego.optimal.reducer.EGOOptimalWithReducerFilterJob.EGOOptimalWithReducerFilterJoin(conf, Integer.parseInt(args[1]));
 			
+		}else if(args[0].equals("egoindex")){
+			state = org.macau.stjoin.ego.optimal.index.EGOOptimalWithReducerIndexJob.EGOOptimalWithReducerIndexJoin(conf, Integer.parseInt(args[1]));
 		}
 		
 //		boolean state = TemporalJoinJob.TemporalSimilarityBasicJoin(conf);

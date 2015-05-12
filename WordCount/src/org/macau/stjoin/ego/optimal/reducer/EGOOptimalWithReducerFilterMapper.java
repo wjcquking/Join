@@ -2,8 +2,7 @@ package org.macau.stjoin.ego.optimal.reducer;
 
 /**
  * The Mapper uses the temporal information
- * R send same number 
- * S send one more time interval 
+ * According to the calculated partition solution to partition the data
  * 
  */
 import java.io.IOException;
@@ -16,7 +15,6 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
-import org.macau.flickr.util.FlickrValue;
 import org.macau.flickr.util.FlickrValueWithCandidateTags;
 import org.macau.util.SimilarityUtil;
 
@@ -81,6 +79,8 @@ public class EGOOptimalWithReducerFilterMapper extends
 	
 		
 		String textualTag = "";
+		//This String can be converted to Stringbuilder
+		
 		
 		if(!textual.equals("null")){
 			

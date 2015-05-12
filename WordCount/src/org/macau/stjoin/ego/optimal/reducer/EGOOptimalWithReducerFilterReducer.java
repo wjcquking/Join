@@ -12,7 +12,6 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.macau.flickr.util.FlickrSimilarityUtil;
-//import org.macau.flickr.util.FlickrValue;
 import org.macau.flickr.util.FlickrValueWithCandidateTags;
 import org.macau.stjoin.basic.temporal.TemporalComparator;;
 
@@ -45,11 +44,7 @@ public class EGOOptimalWithReducerFilterReducer extends
 			List<String> itext = new ArrayList<String>(Arrays.asList(str1.split("#")));
 			List<String> jtext = new ArrayList<String>(Arrays.asList(str2.split("#")));
 			
-//			System.out.println(str1);
-//			System.out.println(str2);
-//			System.out.println(itext.size());
-//			System.out.println(jtext.size());
-//			
+
 			boolean result = true;
 			for(int i =jtext.size()-1; i < jtext.size();i++){
 				
@@ -189,7 +184,7 @@ public class EGOOptimalWithReducerFilterReducer extends
 						for(int k = 0; k < sMap.get(i).size();k++){
 							FlickrValueWithCandidateTags value2 = sMap.get(i).get(k);
 							
-							if(hasCommonCandidateTag(value1.getCandidateTags(),value2.getCandidateTags())){
+							
 							
 								tCompareCount++;
 								if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
@@ -197,6 +192,7 @@ public class EGOOptimalWithReducerFilterReducer extends
 									if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
 										
 										oCompareCount++;
+										if(hasCommonCandidateTag(value1.getCandidateTags(),value2.getCandidateTags())){
 										if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
 											
 											
@@ -233,13 +229,14 @@ public class EGOOptimalWithReducerFilterReducer extends
 						for(int k = 0; k < sMap.get(i+1).size();k++){
 							FlickrValueWithCandidateTags value2 = sMap.get(i+1).get(k);
 							
-							if(hasCommonCandidateTag(value1.getCandidateTags(),value2.getCandidateTags())){
+							
 								tCompareCount++;
 								if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
 									sCompareCount++;
 									if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
 										
 										oCompareCount++;
+										if(hasCommonCandidateTag(value1.getCandidateTags(),value2.getCandidateTags())){
 										if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
 											
 											
@@ -277,13 +274,14 @@ public class EGOOptimalWithReducerFilterReducer extends
 						
 						for(int k = 0; k < sMap.get(i-1).size();k++){
 							FlickrValueWithCandidateTags value2 = sMap.get(i-1).get(k);
-							if(hasCommonCandidateTag(value1.getCandidateTags(),value2.getCandidateTags())){
+							
 								tCompareCount++;
 								if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
 									sCompareCount++;
 									if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
 										
 										oCompareCount++;
+										if(hasCommonCandidateTag(value1.getCandidateTags(),value2.getCandidateTags())){
 										if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
 											
 											
