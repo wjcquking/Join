@@ -14,25 +14,22 @@ import org.macau.flickr.util.FlickrValue;
 /**
  * 
  * @author hadoop
- * Map: Input:  KEY  : 
- *              Value:
- *      output: KEY  :
- *      		Value:
- *      
- * Reduce: Input: KEY  :
- * 				  Value:
+ * EGO Optimal Join
+ * Find the min max reducer time partition solution to do the join operation
+ * because we find the optimal partition solution
+ * 
  */
 public class EGOOptimalJoinJob {
 
-	public static boolean TemporalSimilarityBasicJoin(Configuration conf,int reducerNumber) throws Exception{
+	public static boolean EGOOptimalJoin(Configuration conf,int reducerNumber) throws Exception{
 		
 		Job basicJob = new Job(conf,"EGO optimal Join");
 		basicJob.setJarByClass(TemporalSimilarityJoin.class);
 		
-		basicJob.setMapperClass(TemporalJoinMapper.class);
+		basicJob.setMapperClass(EGOOptimalJoinMapper.class);
 //		basicJob.setCombinerClass(TemporalJoinReducer.class);
 		
-		basicJob.setReducerClass(TemporalJoinReducer.class);
+		basicJob.setReducerClass(EGOOptimalJoinReducer.class);
 		
 		basicJob.setMapOutputKeyClass(LongWritable.class);
 		basicJob.setMapOutputValueClass(FlickrValue.class);
