@@ -22,7 +22,7 @@ import org.macau.flickr.util.FlickrValue;
  * Reduce: Input: KEY  :
  * 				  Value:
  */
-public class TemporalJoinJob {
+public class EGOOptimalJoinJob {
 
 	public static boolean TemporalSimilarityBasicJoin(Configuration conf,int reducerNumber) throws Exception{
 		
