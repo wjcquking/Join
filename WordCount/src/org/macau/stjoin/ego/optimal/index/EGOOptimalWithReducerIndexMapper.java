@@ -111,23 +111,10 @@ public class EGOOptimalWithReducerIndexMapper extends
 		
 		int x = (int) (lat /thres);
 		int y = (int)(lon/thres );
-//		if(tag == FlickrSimilarityUtil.R_tag){
 			
-			spatialTag =  x + ":" + y;
-			temporalTag = timeInterval + "";
+		spatialTag =  x + ":" + y;
+		temporalTag = timeInterval + "";
 			
-//		}else{
-//			for(int i = x-1; i <= x+1;i++){
-//				for(int j = y-1;j <= y+1;j++){
-//					if(i == x+1 && j == y+1){
-//						spatialTag += i + ":" + j;
-//					}else{
-//						spatialTag += i + ":" + j + ",";
-//					}
-//				}
-//			}
-//			temporalTag = (timeInterval-1) +"," + timeInterval + "," + (timeInterval+1);
-//		}
 		
 		String candidateTags = temporalTag + "#"+ spatialTag + "#"+textualTag;
 		

@@ -37,8 +37,6 @@ public class EGOOptimalWithReducerIndexJob {
 		basicJob.setMapOutputKeyClass(LongWritable.class);
 		basicJob.setMapOutputValueClass(FlickrValueWithCandidateTags.class);
 		
-//		basicJob.setOutputKeyClass(Text.class);
-//		basicJob.setOutputValueClass(Text.class);
 		basicJob.setNumReduceTasks(reducerNumber);
 		
 		FileInputFormat.addInputPath(basicJob, new Path(FlickrSimilarityUtil.flickrInputPath));
