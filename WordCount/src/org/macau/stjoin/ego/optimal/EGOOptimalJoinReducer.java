@@ -17,7 +17,7 @@ import org.macau.flickr.util.FlickrValue;
 import org.macau.stjoin.basic.temporal.TemporalComparator;;
 
 
-public class TemporalJoinReducer extends
+public class EGOOptimalJoinReducer extends
 	Reducer<LongWritable, FlickrValue, Text, Text>{
 		
 		

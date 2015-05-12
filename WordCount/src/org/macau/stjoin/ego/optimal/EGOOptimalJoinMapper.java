@@ -19,7 +19,7 @@ import org.macau.flickr.job.FlickrSimilarityJoin;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
 
-public class TemporalJoinMapper extends
+public class EGOOptimalJoinMapper extends
 	Mapper<Object, Text, LongWritable, FlickrValue>{
 	
 	private final LongWritable outputKey = new LongWritable();
