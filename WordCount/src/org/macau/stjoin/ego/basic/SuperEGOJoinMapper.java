@@ -1,4 +1,4 @@
-package org.macau.stjoin.ego;
+package org.macau.stjoin.ego.basic;
 
 /****************************************************
  * 
@@ -80,7 +80,6 @@ public class SuperEGOJoinMapper extends
 		
 		long timeInterval = timestamp / FlickrSimilarityUtil.TEMPORAL_THRESHOLD;
 		
-//		outputValue = new FlickrValue(FlickrSimilarityUtil.getFlickrVallueFromString(value.toString()));
 		
 		outputValue.setTileNumber((int)timeInterval);
 		
@@ -92,21 +91,14 @@ public class SuperEGOJoinMapper extends
 		//the textual information
 		outputValue.setTiles(record.toString().split(":")[5]);
 		
-//		System.out.println(value.toString().split(":")[5]);
 		
 		outputValue.setTimestamp(timestamp);
-		
-		//for the R data
-//		int [][] bounds= {{190,2444,119},{195,2444,119,},{199,2444,118},{205,2444,118}};
-		
-		//For the R and S data
-//		int [][] bounds = {{191,2444,118},{196,2444,119},{201,2444,119},{207,2440,117}};
 		
 
 		//S set
 		if(tag == FlickrSimilarityUtil.S_tag){
 			sCount++;
-			System.out.println("SS:" + sCount);
+//			System.out.println("SS:" + sCount);
 //			int group = sCount / 10000;
 			
 			for(int i = 0; i < 40;i++){
@@ -116,7 +108,7 @@ public class SuperEGOJoinMapper extends
 			}
 		}else if(tag == FlickrSimilarityUtil.R_tag){
 			rCount++;
-			System.out.println("RR:" + rCount);
+//			System.out.println("RR:" + rCount);
 //			int group = rCount / 10000;
 			
 			for(int i = 0; i < 40;i++){
@@ -125,102 +117,6 @@ public class SuperEGOJoinMapper extends
 				context.write(outputKey, outputValue);
 			}
 		}
-		
-//		System.out.println(rCount + "  " + sCount);
-		
-		double thres = Math.pow(FlickrSimilarityUtil.DISTANCE_THRESHOLD, 0.5);
-		
-		int x = (int) (lat /thres);
-		int y = (int)(lon/thres );
-		
-
-		//The Original temporal partition, for each time interval, it is a partition, for the R
-		//the time interval is the key, while for the S set, it should set to three time interval
-//		if(tag == FlickrSimilarityUtil.S_tag){
-//			
-//			int pNumber = 0;
-//			
-//			if(timeInterval >= bounds[bounds.length-1][0]){
-//				
-//				pNumber = bounds.length;
-//				
-//			}else{
-//				
-//				for(int i = 0; i < bounds.length;i++){
-//					
-//					if(timeInterval < bounds[i][0]){
-//						pNumber = i;
-//						break;
-//					}
-//				}
-//			}
-//			
-//			outputKey.set(pNumber);
-//			outputValue.setTileNumber((int)timeInterval );
-//			context.write(outputKey, outputValue);
-//			
-//			if(pNumber == 0){
-//				if(timeInterval- bounds[0][0] == -1){
-//					outputKey.set(pNumber+1);
-//					outputValue.setTileNumber((int)timeInterval );
-//					context.write(outputKey, outputValue);
-//				}
-//			}
-//			
-//			if(pNumber == 4){
-//				if(timeInterval- bounds[3][0] == 0){
-//					outputKey.set(pNumber-1);
-//					outputValue.setTileNumber((int)timeInterval );
-//					context.write(outputKey, outputValue);
-//				}
-//			}
-//			
-//			
-//			if(pNumber >= 1 && pNumber <= 3){
-//				
-//				if(timeInterval- bounds[pNumber-1][0] == 0){
-//					outputKey.set(pNumber-1);
-//					outputValue.setTileNumber((int)timeInterval );
-//					context.write(outputKey, outputValue);
-//				}
-//				
-//				
-//				if(timeInterval- bounds[pNumber][0] == -1){
-//					outputKey.set(pNumber+1);
-//					outputValue.setTileNumber((int)timeInterval );
-//					context.write(outputKey, outputValue);
-//				}
-//			}
-//			
-//			
-//		}else{
-//			
-//			int pNumber = 0;
-//			
-//			if(timeInterval >= bounds[bounds.length-1][0]){
-//				
-//				pNumber = bounds.length;
-//				
-//			}else{
-//				
-//				for(int i = 0; i < bounds.length;i++){
-//					
-//					if(timeInterval < bounds[i][0]){
-//						pNumber = i;
-//						break;
-//					}
-//				}
-//			}
-//			
-//			//for the R set
-//			outputKey.set(pNumber);
-//			outputValue.setTileNumber((int)timeInterval);
-//			context.write(outputKey, outputValue);
-//		}
-		
-	
-		
-		
 		
 		
 	}

@@ -1,4 +1,4 @@
-package org.macau.stjoin.ego;
+package org.macau.stjoin.ego.basic;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;

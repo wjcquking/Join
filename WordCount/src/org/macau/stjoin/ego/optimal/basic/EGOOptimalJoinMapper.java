@@ -15,7 +15,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
-import org.macau.flickr.job.FlickrSimilarityJoin;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
 
@@ -60,22 +59,19 @@ public class EGOOptimalJoinMapper extends
 		
 		long timeInterval = timestamp / FlickrSimilarityUtil.TEMPORAL_THRESHOLD;
 		
-//		outputValue = new FlickrValue(FlickrSimilarityUtil.getFlickrVallueFromString(value.toString()));
-		
 		outputValue.setTileNumber((int)timeInterval);
 		
 		outputValue.setId(id);
 		outputValue.setLat(lat);
 		outputValue.setLon(lon);
 		outputValue.setTag(tag);
+		outputValue.setTimestamp(timestamp);
 		
 		//the textual information
 		outputValue.setTiles(value.toString().split(":")[5]);
 		outputValue.setOthers(value.toString().split(":")[6]);
 		
-//		System.out.println(value.toString().split(":")[5]);
 		
-		outputValue.setTimestamp(timestamp);
 		
 		//for the R data
 //		int [][] bounds= {{190,2444,119},{195,2444,119,},{199,2444,118},{205,2444,118}};
@@ -156,23 +152,11 @@ public class EGOOptimalJoinMapper extends
 		//5
 //		int[][] bounds = {{13959,2114,112},{14059,2114,112},{14115,2114,112},{14171,2114,112},{14186,2114,112},{14204,2114,112},{14224,2114,112},{14245,2114,112},{14263,2114,112},{14279,2114,112},{14294,2114,112},{14309,2114,112},{14322,2114,112},{14337,2114,112},{14354,2114,112},{14371,2114,112},{14387,2114,112},{14404,2114,112},{14421,2114,112},{14436,2114,112},{14451,2114,112},{14466,2114,112},{14481,2114,112},{14498,2114,112},{14516,2114,112},{14553,2114,112},{14597,2114,112},{14669,2114,112},{14781,2114,112},{14862,2114,112}};
 		
-		double thres = Math.pow(FlickrSimilarityUtil.DISTANCE_THRESHOLD, 0.5);
+
 		
-		int x = (int) (lat /thres);
-		int y = (int)(lon/thres );
-		
-//		if(tag == FlickrSimilarityUtil.S_tag && timeInterval % 10 == 0){
-//			
-//			outputKey.set(timeInterval/10 - 1);
-//			context.write(outputKey, outputValue);
-//			
-//		}
-//		
-//		outputKey.set(timeInterval/10);
-//		context.write(outputKey, outputValue);
-//		
+
 		//The Original temporal partition, for each time interval, it is a partition, for the R
-		//the time interval is the key, while for the S set, it should set to three time interval
+		//the time interval is the key, while for the S set, copy to other partition in the bound
 		
 		
 		

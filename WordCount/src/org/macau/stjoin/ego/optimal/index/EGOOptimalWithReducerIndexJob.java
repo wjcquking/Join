@@ -26,7 +26,7 @@ public class EGOOptimalWithReducerIndexJob {
 
 	public static boolean EGOOptimalWithReducerIndexJoin(Configuration conf,int reducerNumber) throws Exception{
 		
-		Job basicJob = new Job(conf,"EGO optimal Join with Reducer filter");
+		Job basicJob = new Job(conf,"EGO optimal Join with Reducer index");
 		basicJob.setJarByClass(TemporalSimilarityJoin.class);
 		
 		basicJob.setMapperClass(EGOOptimalWithReducerIndexMapper.class);
