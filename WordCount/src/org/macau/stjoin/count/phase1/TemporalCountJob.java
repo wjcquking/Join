@@ -16,31 +16,24 @@ import org.macau.flickr.util.FlickrValue;
 /**
  * 
  * @author hadoop
- * Map: Input:  KEY  : 
- *              Value:
- *      output: KEY  :
- *      		Value:
- *      
- * Reduce: Input: KEY  :
- * 				  Value:
+ * Word Count
+ * Calculate the count number for each timeinterval
  */
 public class TemporalCountJob {
 
-	public static boolean TemporalSimilarityBasicJoin(Configuration conf,int reducerNumber) throws Exception{
+	public static boolean TemporalCount(Configuration conf,int reducerNumber) throws Exception{
 		
 		Job basicJob = new Job(conf,"Temporal Count Job");
 		basicJob.setJarByClass(TemporalSimilarityJoin.class);
 		
 		basicJob.setMapperClass(TemporalCountMapper.class);
-//		basicJob.setCombinerClass(TemporalJoinReducer.class);
+		basicJob.setCombinerClass(TemporalCountReducer.class);
 		
 		basicJob.setReducerClass(TemporalCountReducer.class);
 		
 		basicJob.setMapOutputKeyClass(Text.class);
 		basicJob.setMapOutputValueClass(IntWritable.class);
 		
-//		basicJob.setOutputKeyClass(Text.class);
-//		basicJob.setOutputValueClass(Text.class);
 		basicJob.setNumReduceTasks(reducerNumber);
 		
 		FileInputFormat.addInputPath(basicJob, new Path(FlickrSimilarityUtil.flickrInputPath));

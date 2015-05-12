@@ -47,8 +47,6 @@ public class TemporalCountReducer extends
 			System.out.println("clean up");
 			System.out.println("The Reducer End at"+System.currentTimeMillis());
 
-			
-			
 		}
 	}
 
