@@ -59,26 +59,29 @@ public class EGOOptimalWithReducerFilterReducer extends
 		
 		public boolean hasCommonTag(String str1, String str2){
 			
-//			boolean result = true;
-//			
-//			List<String> itext = new ArrayList<String>(Arrays.asList(str1.split(",")));
-//			List<String> jtext = new ArrayList<String>(Arrays.asList(str2.split(",")));
-//			
-//			for(String str : itext){
-//				if(!jtext.contains(str)){
-//					result = false;
-//					break;
-//				}
-//			}
-//			
-//			return result;
+			boolean result = false;
 			
 			List<String> itext = new ArrayList<String>(Arrays.asList(str1.split(",")));
 			List<String> jtext = new ArrayList<String>(Arrays.asList(str2.split(",")));
 			
-			jtext.retainAll(itext);
+			for(String str : itext){
+				if(jtext.contains(str)){
+					result = true;
+					break;
+				}
+			}
 			
-			return jtext.size() >0 ? true :false;
+			return result;
+			
+//			List<String> itext = new ArrayList<String>(Arrays.asList(str1.split(",")));
+//			List<String> jtext = new ArrayList<String>(Arrays.asList(str2.split(",")));
+			
+//			jtext.retainAll(itext);
+//			
+//			return jtext.size() >0 ? true :false;
+			
+			
+			
 		}
 		
 		public void reduce(LongWritable key, Iterable<FlickrValueWithCandidateTags> values,
@@ -207,7 +210,7 @@ public class EGOOptimalWithReducerFilterReducer extends
 							            
 							            
 								            text.set(ridA + "%" + ridB);
-								            context.write(text, new Text(""));
+								            context.write(text, new Text(value1.toString() + "------" + value1.getCandidateTags()+"-------" + value2.getCandidateTags()+"-------"+  value2.toString()));
 										}
 									}
 								}

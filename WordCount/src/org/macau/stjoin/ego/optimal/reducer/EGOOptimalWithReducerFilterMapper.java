@@ -90,10 +90,11 @@ public class EGOOptimalWithReducerFilterMapper extends
 			//get the prefix values
 			int prefixLength = SimilarityUtil.getPrefixLength(textualList.length, FlickrSimilarityUtil.TEXTUAL_THRESHOLD);
 			
-			for(int i = 0; i < prefixLength;i++){
+			//for(int i = 0; i < prefixLength;i++){
+			for(int i = textualList.length-1; i >= textualList.length - prefixLength;i--){
 				
 				Integer tokenID = Integer.parseInt(textualList[i]);
-				if(i == prefixLength - 1){
+				if(i == textualList.length - prefixLength){
 					textualTag += tokenID;
 				}else{
 					textualTag += tokenID + ",";
@@ -240,7 +241,7 @@ public class EGOOptimalWithReducerFilterMapper extends
 		 ****************************************************************/
 		
 		
-		
+		if(!textual.equals("null")){
 		if(tag == FlickrSimilarityUtil.S_tag){
 			
 			int pNumber = 0;
@@ -322,7 +323,7 @@ public class EGOOptimalWithReducerFilterMapper extends
 			outputValue.setTileNumber((int)timeInterval);
 			context.write(outputKey, outputValue);
 		}
-		
+		}
 	
 		
 		
