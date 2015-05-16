@@ -8,19 +8,15 @@ package org.macau.stjoin.basic.spatial;
  */
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapreduce.Reducer.Context;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
-import org.macau.stjoin.basic.temporal.TemporalComparator;
 
 public class GridSpatialReducer extends
 	Reducer<IntWritable, FlickrValue, Text, Text>{
@@ -110,63 +106,55 @@ public class GridSpatialReducer extends
 		sCount.add(s);
 		wCount.add(w);
 		
-		Iterator it = rMap.entrySet().iterator();
 		
 		
-		while(it.hasNext()){
-			@SuppressWarnings("unchecked")
-			Map.Entry<Integer,ArrayList<FlickrValue>> m = (Map.Entry<Integer,ArrayList<FlickrValue>>)it.next();
-			m.getKey();
-			ArrayList<FlickrValue> rRecords = m.getValue();
-			//System.out.println(sMap.get(m.getKey()));
-			ArrayList<FlickrValue> sRecords = new ArrayList<FlickrValue>();
+		for(java.util.Iterator<Integer> obj = rMap.keySet().iterator();obj.hasNext();){
 			
-			/*
-			 * This is important,because the sMap may don't have the key value
-			 * so add one if condition to make sure the sMap can get some value by the key
-			 */
-			if(sMap.get(m.getKey()) != null){
-				sRecords = sMap.get(m.getKey());
-			}
+			Integer i = obj.next();
 			
 			
-//			System.out.println(rRecords.size() + " r" );
-//			System.out.println(sRecords.size() + " s" );
-			
-			
-//			brute force
-			for (int i = 0; i < rRecords.size(); i++) {
+			if(sMap.containsKey(i)){
 				
-				FlickrValue value1 = rRecords.get(i);
 				
-			    for (int j = 0; j < sRecords.size(); j++) {
-			    	
-			    	
-			    	FlickrValue value2 = sRecords.get(j);
-			    	
-			    	long ridA = value1.getId();
-		            long ridB = value2.getId();
-		            
-		            sCompareCount++;
-					if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
-						
+				for(int j = 0;j < rMap.get(i).size();j++){
+					
+					FlickrValue value1 = rMap.get(i).get(j);
+					
+					//for the same tail, there is no need for comparing
+					
+					for(int k = 0; k < sMap.get(i).size();k++){
+						FlickrValue value2 = sMap.get(i).get(k);
 						tCompareCount++;
 						if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-							
-							oCompareCount++;
-							if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-			    		
-								text.set(ridA + "%" + ridB);
-								context.write(text, new Text(""));
+							sCompareCount++;
+							if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
+								
+								oCompareCount++;
+								if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
+									
+									
+									long ridA = value1.getId();
+						            long ridB = value2.getId();
+						            if (ridA < ridB) {
+						                long rid = ridA;
+						                ridA = ridB;
+						                ridB = rid;
+						            }
+								
+						            text.set("" + ridA + "%" + ridB);
+						            context.write(text, new Text(""));
+								}
 							}
 						}
-			    	}
-			    	
-			    }
+					}
+				}
 			}
 		}
+
 		rMap.clear();
 		sMap.clear();
+		
+
 	}
 	
 	
