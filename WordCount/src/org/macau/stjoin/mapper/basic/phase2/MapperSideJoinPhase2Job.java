@@ -2,22 +2,21 @@ package org.macau.stjoin.mapper.basic.phase2;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.macau.flickr.job.TemporalSimilarityJoin;
 import org.macau.flickr.util.FlickrSimilarityUtil;
-import org.macau.flickr.util.FlickrValue;
 
 
 /**
  * 
  * @author hadoop
  * This is for the mapper join
- * Phase 1
- * the mapper read the data, and the same key to the same reducer
+ * Phase 2
+ * the mapper read the data, and the same key in the same reducer
+ * 
  */
 public class MapperSideJoinPhase2Job {
 

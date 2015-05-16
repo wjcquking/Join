@@ -9,7 +9,6 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.macau.flickr.job.TemporalSimilarityJoin;
 import org.macau.flickr.util.FlickrSimilarityUtil;
-import org.macau.flickr.util.FlickrValue;
 
 
 /**
@@ -27,7 +26,6 @@ public class MapSideJoinJob {
 		basicJob.setJarByClass(TemporalSimilarityJoin.class);
 		
 		basicJob.setMapperClass(TemporalJoinMapper.class);
-//		basicJob.setCombinerClass(TemporalJoinReducer.class);
 		
 		basicJob.setReducerClass(TemporalJoinReducer.class);
 		
