@@ -38,7 +38,6 @@ public class SuperEGOJoinJob {
 		basicJob.setJarByClass(SuperEGOJoinJob.class);
 		
 		basicJob.setMapperClass(SuperEGOJoinMapper.class);
-//		basicJob.setCombinerClass(TemporalJoinReducer.class);
 		
 		basicJob.setReducerClass(SuperEGOJoinReducer.class);
 		
