@@ -34,11 +34,13 @@ public class TextualJoinMapper extends
 		
 		outputValue = new FlickrValue(FlickrSimilarityUtil.getFlickrVallueFromString(value.toString()));
 		
-		
+		System.out.println(outputValue.getTiles());
+			
 		outputValue.setTag(tag);
 		
 		
 		String textual = value.toString().split(":")[5];
+		outputValue.setOthers(value.toString().split(":")[6]);
 		
 		
 		if(!textual.equals("null")){
@@ -49,7 +51,12 @@ public class TextualJoinMapper extends
 			//get the prefix values
 			int prefixLength = SimilarityUtil.getPrefixLength(textualList.length, FlickrSimilarityUtil.TEXTUAL_THRESHOLD);
 			
-			for(int i = 0; i < prefixLength;i++){
+			/*
+			 * Because in the textual information, the token is ordered from the high to the low
+			 * So when calculate the prefix, we take the token from the end to the first.
+			 */
+			for(int i = textualList.length-1; i >= textualList.length-prefixLength;i--){
+//			for(int i =0; i <prefixLength;i++){
 				
 				Integer tokenID = Integer.parseInt(textualList[i]);
 				

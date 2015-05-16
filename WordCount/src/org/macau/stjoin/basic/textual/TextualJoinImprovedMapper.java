@@ -40,9 +40,12 @@ public class TextualJoinImprovedMapper extends
 		
 		
 		outputValue.setTag(tag);
-		
+		outputValue.setOthers(value.toString().split(":")[6]);
 		
 		String textual = value.toString().split(":")[5];
+		
+		
+		
 		
 		
 		if(!textual.equals("null")){

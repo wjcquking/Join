@@ -2,6 +2,7 @@ package org.macau.stjoin.basic.textual;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -39,18 +40,19 @@ Reducer<IntWritable, FlickrValue, Text, Text>{
 		
 		for(FlickrValue value:values){
 			
-		    
+			FlickrValue fv = new FlickrValue(value);
+			
 		    if(value.getTag() == FlickrSimilarityUtil.R_tag){
 		    	
 		    	if(rMap.containsKey(value.getTileNumber())){
 			    	
-			    	rMap.get(value.getTileNumber()).add(new FlickrValue(value));
+			    	rMap.get(value.getTileNumber()).add(new FlickrValue(fv));
 			    	
 			    }else{
 			    	
 			    	ArrayList<FlickrValue> list = new ArrayList<FlickrValue>();
 			    	
-			    	list.add(value);
+			    	list.add(fv);
 			    	
 			    	rMap.put(value.getTileNumber(), list);
 			    	
@@ -59,13 +61,13 @@ Reducer<IntWritable, FlickrValue, Text, Text>{
 		    	
 		    	if(sMap.containsKey(value.getTileNumber())){
 			    	
-			    	sMap.get(value.getTileNumber()).add(new FlickrValue(value));
+			    	sMap.get(value.getTileNumber()).add(new FlickrValue(fv));
 			    	
 			    }else{
 			    	
 			    	ArrayList<FlickrValue> list = new ArrayList<FlickrValue>();
 			    	
-			    	list.add(value);
+			    	list.add(fv);
 			    	
 			    	sMap.put(value.getTileNumber(), list);
 			    }
@@ -115,19 +117,25 @@ Reducer<IntWritable, FlickrValue, Text, Text>{
 					
 					FlickrValue value1 = rMap.get(i).get(j);
 					
+					
 					tCompareCount++;
 					for(int k = 0; k < sMap.get(i).size();k++){
 						FlickrValue value2 = sMap.get(i).get(k);
 							
-						oCompareCount++;
-						if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
+						tCompareCount++;
+						if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
 							
-							tCompareCount++;
-							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
+							sCompareCount++;
+							if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
 								
-								sCompareCount++;
-								if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
-								
+								oCompareCount++;
+								if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
+									
+									List<String> itext = new ArrayList<String>(Arrays.asList(value1.getTiles().split(";")));
+									List<String> jtext = new ArrayList<String>(Arrays.asList(value2.getTiles().split(";")));
+									
+									jtext.retainAll(itext);
+									
 									long ridA = value1.getId();
 						            long ridB = value2.getId();
 						            if (ridA < ridB) {
@@ -137,9 +145,11 @@ Reducer<IntWritable, FlickrValue, Text, Text>{
 						            }
 								
 					            
-					            
-						            text.set("" + ridA + "%" + ridB);
-						            context.write(text, new Text(""));
+//						            if(i == Integer.parseInt(jtext.get(0))){
+						            if(i.toString().equals(jtext.get(jtext.size()-1))){
+						            	text.set(ridA + "%" + ridB);
+						            	context.write(text, new Text(""));
+						            }
 								}
 							}
 						}

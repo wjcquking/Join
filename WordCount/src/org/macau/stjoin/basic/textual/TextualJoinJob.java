@@ -16,9 +16,7 @@ public static boolean TextualSimilarityBasicJoin(Configuration conf) throws Exce
 		Job basicJob = new Job(conf,"Textual Basic Similarity Join");
 		basicJob.setJarByClass(TextualJoinJob.class);
 		
-//		basicJob.setMapperClass(TextualJoinMapper.class);
-		basicJob.setMapperClass(TextualJoinImprovedMapper.class);
-//		basicJob.setCombinerClass(TemporalJoinReducer.class);
+		basicJob.setMapperClass(TextualJoinMapper.class);
 		
 		basicJob.setReducerClass(TextualJoinReducer.class);
 		
@@ -27,7 +25,7 @@ public static boolean TextualSimilarityBasicJoin(Configuration conf) throws Exce
 		
 //		basicJob.setOutputKeyClass(Text.class);
 //		basicJob.setOutputValueClass(Text.class);
-//		basicJob.setNumReduceTasks(6);
+		basicJob.setNumReduceTasks(30);
 		
 		FileInputFormat.addInputPath(basicJob, new Path(FlickrSimilarityUtil.flickrInputPath));
 		FileOutputFormat.setOutputPath(basicJob, new Path(FlickrSimilarityUtil.flickrOutputPath));
