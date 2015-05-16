@@ -11,7 +11,7 @@ import org.macau.flickr.util.FlickrValue;
 
 public class TextualJoinJob {
 	
-public static boolean TextualSimilarityBasicJoin(Configuration conf) throws Exception{
+public static boolean TextualSimilarityBasicJoin(Configuration conf,int reducerNumber) throws Exception{
 		
 		Job basicJob = new Job(conf,"Textual Basic Similarity Join");
 		basicJob.setJarByClass(TextualJoinJob.class);
@@ -25,7 +25,7 @@ public static boolean TextualSimilarityBasicJoin(Configuration conf) throws Exce
 		
 //		basicJob.setOutputKeyClass(Text.class);
 //		basicJob.setOutputValueClass(Text.class);
-		basicJob.setNumReduceTasks(30);
+		basicJob.setNumReduceTasks(reducerNumber);
 		
 		FileInputFormat.addInputPath(basicJob, new Path(FlickrSimilarityUtil.flickrInputPath));
 		FileOutputFormat.setOutputPath(basicJob, new Path(FlickrSimilarityUtil.flickrOutputPath));

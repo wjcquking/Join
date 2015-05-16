@@ -14,13 +14,9 @@ import org.macau.flickr.util.FlickrSimilarityUtil;
 /**
  * 
  * @author hadoop
- * Map: Input:  KEY  : 
- *              Value:
- *      output: KEY  :
- *      		Value:
- *      
- * Reduce: Input: KEY  :
- * 				  Value:
+ * Only has mapper which sort the data according to the time
+ * 
+ * Modify Date: 2015-05-17
  */
 public class GroupStatisticsJob {
 
@@ -30,8 +26,6 @@ public class GroupStatisticsJob {
 		basicJob.setJarByClass(TemporalSimilarityJoin.class);
 		
 		basicJob.setMapperClass(GroupStatisticsMapper.class);
-		
-//		basicJob.setReducerClass(GroupStatisticsReducer.class);
 		
 		basicJob.setMapOutputKeyClass(LongWritable.class);
 		basicJob.setMapOutputValueClass(Text.class);

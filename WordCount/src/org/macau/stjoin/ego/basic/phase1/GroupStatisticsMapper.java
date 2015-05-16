@@ -19,8 +19,6 @@ import org.macau.flickr.util.FlickrSimilarityUtil;
 public class GroupStatisticsMapper extends
 	Mapper<Object, Text, LongWritable, Text>{
 	
-	private final Text outputKey = new Text();
-	
 	
 	protected void setup(Context context) throws IOException, InterruptedException {
 
@@ -44,7 +42,6 @@ public class GroupStatisticsMapper extends
 		long timeInterval = timestamp / FlickrSimilarityUtil.TEMPORAL_THRESHOLD;
 		
 
-		outputKey.set(tag + " " + timeInterval);
 		value = new Text(tag + " " + timeInterval + " "+ value.toString());
 		
 		

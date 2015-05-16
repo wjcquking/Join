@@ -2,12 +2,10 @@ package org.macau.stjoin.ego.basic;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.macau.flickr.job.TemporalSimilarityJoin;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
 
@@ -47,8 +45,6 @@ public class SuperEGOJoinJob {
 		basicJob.setMapOutputKeyClass(Text.class);
 		basicJob.setMapOutputValueClass(FlickrValue.class);
 		
-//		basicJob.setOutputKeyClass(Text.class);
-//		basicJob.setOutputValueClass(Text.class);
 		basicJob.setNumReduceTasks(reducerNumber);
 		
 		FileInputFormat.addInputPath(basicJob, new Path(FlickrSimilarityUtil.flickrOutputPath));

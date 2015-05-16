@@ -169,7 +169,10 @@ public class EGOOptimalJoinMapper extends
 		 * 
 		 ****************************************************************/
 		
+		String textual = value.toString().split(":")[5];
 		
+		
+		if(!textual.equals("null")){
 		
 		if(tag == FlickrSimilarityUtil.S_tag){
 			
@@ -251,6 +254,7 @@ public class EGOOptimalJoinMapper extends
 			outputKey.set(pNumber);
 			outputValue.setTileNumber((int)timeInterval);
 			context.write(outputKey, outputValue);
+		}
 		}
 		
 	

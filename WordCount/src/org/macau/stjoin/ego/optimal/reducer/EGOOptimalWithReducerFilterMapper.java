@@ -27,18 +27,9 @@ public class EGOOptimalWithReducerFilterMapper extends
 	
 	protected void setup(Context context) throws IOException, InterruptedException {
 
-		System.out.println("Temporal mapper Start at " + System.currentTimeMillis());
+		System.out.println("EGO Filter mapper Start at " + System.currentTimeMillis());
 	}
-	
-	public static String convertDateToString(Date date){
-		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
-		return df.format(date);
-	}
-	
-	public static Date convertLongToDate(Long date){
-		return new Date(date);
-	}
-	
+
 	
 	public void map(Object key, Text value, Context context)
 			throws IOException, InterruptedException {

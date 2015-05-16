@@ -3,7 +3,6 @@ package org.macau.stjoin.ego.optimal.index;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +11,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.macau.flickr.util.FlickrSimilarityUtil;
-//import org.macau.flickr.util.FlickrValue;
 import org.macau.flickr.util.FlickrValueWithCandidateTags;
-import org.macau.stjoin.basic.temporal.TemporalComparator;;
 
 
 public class EGOOptimalWithReducerIndexReducer extends
@@ -22,9 +19,6 @@ public class EGOOptimalWithReducerIndexReducer extends
 		
 		
 		private final Text text = new Text();
-		
-		private final Map<Integer,ArrayList<FlickrValueWithCandidateTags>> rMap = new HashMap<Integer,ArrayList<FlickrValueWithCandidateTags>>();
-		private final Map<Integer,ArrayList<FlickrValueWithCandidateTags>> sMap = new HashMap<Integer,ArrayList<FlickrValueWithCandidateTags>>();
 		
 		private final List<Long> rCount = new ArrayList<Long>();
 		private final List<Long> sCount = new ArrayList<Long>();
@@ -53,6 +47,7 @@ public class EGOOptimalWithReducerIndexReducer extends
 			//there is a index
 			// There are three layers, temporal, spatial, textual layer
 			for(FlickrValueWithCandidateTags value:values){
+//				System.out.println(value.getTag());
 				
 				FlickrValueWithCandidateTags fv = new FlickrValueWithCandidateTags(value);
 				
@@ -65,52 +60,60 @@ public class EGOOptimalWithReducerIndexReducer extends
 				String[] textual = candidateKey[2].split(",");
 				
 				
-				String basicKey = timeInterval + "#" + x + ":" + y;
+//				String basicKey = timeInterval + "#" + x + ":" + y;
+				String basicKey = timeInterval + "#" ;
 				
 			    if(fv.getTag() == FlickrSimilarityUtil.R_tag){
 			    	
 			    	
 			    	for(long i = timeInterval-1; i <= timeInterval+1;i++){
-			    		for(int j = x-1;j<= x+1;j++){
-			    			for(int k = y-1;k <= y+1;k++){
-			    				String cKey = i + "#" + j + ":" + k;
+//			    		for(int j = x-1;j<= x+1;j++){
+//			    			for(int k = y-1;k <= y+1;k++){
+//			    				String cKey = i + "#" + j + ":" + k;
+			    				String cKey = i + "#" ;
 			    				
 			    				
 			    				if(sIndex.containsKey(cKey)){
 			    					for(String str : textual){
 			    						
 			    						int subKey = Integer.parseInt(str);
+			    						
 			    						if(sIndex.get(cKey).containsKey(subKey)){
-			    						for(int m = 0; m < sIndex.get(cKey).get(subKey).size();m++){
-			    							
-			    							FlickrValueWithCandidateTags value2 = sIndex.get(cKey).get(subKey).get(m);
-			    							
-			    							
-			    							tCompareCount++;
-			    							if(FlickrSimilarityUtil.TemporalSimilarity(fv, value2)){
-			    								sCompareCount++;
-			    								if(FlickrSimilarityUtil.SpatialSimilarity(fv, value2)){
-			    									
-			    									oCompareCount++;
-			    									if(FlickrSimilarityUtil.TextualSimilarity(fv, value2)){
-			    										
-			    										
-			    										long ridA = fv.getId();
-			    							            long ridB = value2.getId();
-			    							            if (ridA < ridB) {
-			    							                long rid = ridA;
-			    							                ridA = ridB;
-			    							                ridB = rid;
-			    							            }
-			    									
-			    						            
-			    						            
-			    							            text.set(ridA + "%" + ridB);
-			    							            context.write(text, new Text(""));
-			    									}
-			    								}
-			    							}
-			    						}
+				    						for(int m = 0; m < sIndex.get(cKey).get(subKey).size();m++){
+				    							
+				    							FlickrValueWithCandidateTags value2 = sIndex.get(cKey).get(subKey).get(m);
+				    							
+				    							
+				    							tCompareCount++;
+				    							if(FlickrSimilarityUtil.TemporalSimilarity(fv, value2)){
+				    								sCompareCount++;
+				    								if(FlickrSimilarityUtil.SpatialSimilarity(fv, value2)){
+				    									
+				    									oCompareCount++;
+				    									
+				    									if(FlickrSimilarityUtil.TextualSimilarity(fv, value2)){
+				    										List<String> itext = new ArrayList<String>(Arrays.asList(fv.getTiles().split(";")));
+					    									List<String> jtext = new ArrayList<String>(Arrays.asList(value2.getTiles().split(";")));
+					    									
+					    									jtext.retainAll(itext);
+				    										
+				    										long ridA = fv.getId();
+				    							            long ridB = value2.getId();
+				    							            if (ridA < ridB) {
+				    							                long rid = ridA;
+				    							                ridA = ridB;
+				    							                ridB = rid;
+				    							            }
+				    									
+				    						            
+				    							            if(str.equals(jtext.get(0))){
+				    							            	text.set(ridA + "%" + ridB);
+				    							            	context.write(text, new Text(""));
+				    							            }
+				    									}
+				    								}
+//				    							}
+//				    						}
 			    						}
 			    					}
 			    				}
@@ -161,9 +164,10 @@ public class EGOOptimalWithReducerIndexReducer extends
 			    }else{
 			    	
 			    	for(long i = timeInterval-1; i <= timeInterval+1;i++){
-			    		for(int j = x-1;j<= x+1;j++){
-			    			for(int k = y-1;k <= y+1;k++){
-			    				String cKey = i + "#" + j + ":" + k;
+//			    		for(int j = x-1;j<= x+1;j++){
+//			    			for(int k = y-1;k <= y+1;k++){
+//			    				String cKey = i + "#" + j + ":" + k;
+			    				String cKey = i + "#" ;
 			    				
 			    				
 			    				if(rIndex.containsKey(cKey)){
@@ -183,7 +187,10 @@ public class EGOOptimalWithReducerIndexReducer extends
 			    									
 			    									oCompareCount++;
 			    									if(FlickrSimilarityUtil.TextualSimilarity(fv, value2)){
-			    										
+			    										List<String> itext = new ArrayList<String>(Arrays.asList(fv.getTiles().split(";")));
+				    									List<String> jtext = new ArrayList<String>(Arrays.asList(value2.getTiles().split(";")));
+				    									
+				    									jtext.retainAll(itext);
 			    										
 			    										long ridA = fv.getId();
 			    							            long ridB = value2.getId();
@@ -195,12 +202,14 @@ public class EGOOptimalWithReducerIndexReducer extends
 			    									
 			    						            
 			    						            
-			    							            text.set(ridA + "%" + ridB);
-			    							            context.write(text, new Text(""));
+			    							            if(str.equals(jtext.get(0))){
+			    							            	text.set(ridA + "%" + ridB);
+			    							            	context.write(text, new Text(""));
+			    							            }
 			    									}
 			    								}
-			    							}
-			    						}
+//			    							}
+//			    						}
 			    					}
 			    					}
 			    				}
@@ -252,225 +261,7 @@ public class EGOOptimalWithReducerIndexReducer extends
 			    
 			}
 			
-			
-			
-//			for(FlickrValueWithCandidateTags value:values){
-//				
-//				FlickrValueWithCandidateTags fv = new FlickrValueWithCandidateTags(value);
-//				
-//			    if(fv.getTag() == FlickrSimilarityUtil.R_tag){
-//			    	
-//			    	if(rMap.containsKey(value.getTileNumber())){
-//				    	
-//				    	rMap.get(value.getTileNumber()).add(new FlickrValueWithCandidateTags(fv));
-//				    	
-//				    }else{
-//				    	
-//				    	ArrayList<FlickrValueWithCandidateTags> list = new ArrayList<FlickrValueWithCandidateTags>();
-//				    	
-//				    	list.add(fv);
-//				    	
-//				    	rMap.put(value.getTileNumber(), list);
-//				    	
-//				    }
-//			    }else{
-//			    	
-//			    	if(sMap.containsKey(value.getTileNumber())){
-//				    	
-//				    	sMap.get(value.getTileNumber()).add(new FlickrValueWithCandidateTags(fv));
-//				    	
-//				    }else{
-//				    	
-//				    	ArrayList<FlickrValueWithCandidateTags> list = new ArrayList<FlickrValueWithCandidateTags>();
-//				    	
-//				    	list.add(fv);
-//				    	
-//				    	sMap.put(value.getTileNumber(), list);
-//				    }
-//			    }
-//			    
-//			    
-//			}
-			
-		
-			/*****************************
-			 * 
-			 * 
-			 * Sort the record in the Map to solve the compare time
-			 * For example
-			 * One record in one time interval, it just need compare record before the same position in the adjacent 
-			 * time interval
-			 * 
-			 * Notice: Now this is no use in the following function but I think it is useful
-			 * 
-			 ****************************/
-//			long rSetSize = 0;
-//			long sSetSize = 0;
-//			long  wholeSize = 0;
-//			// Sort the List in the Map
-//			for(java.util.Iterator<Integer> i = rMap.keySet().iterator();i.hasNext();){
-//				
-//				
-//				TemporalComparator comp = new TemporalComparator();
-//				int obj = i.next();
-//				System.out.println("R:" + obj + " " + rMap.get(obj).size());
-//				Collections.sort(rMap.get(obj),comp);
-//				rSetSize += rMap.get(obj).size();
-//				
-//			}
-//			
-//			for(java.util.Iterator<Integer> i = sMap.keySet().iterator();i.hasNext();){
-//				
-//				TemporalComparator comp = new TemporalComparator();
-//				int obj = i.next();
-//				System.out.println("S:" + obj + "  " + sMap.get(obj).size());
-//				Collections.sort(sMap.get(obj),comp);
-//				sSetSize += sMap.get(obj).size();
-//				
-//			}
-//			System.out.println(rSetSize);
-//			wholeSize = sSetSize + rSetSize;
-//			rCount.add(rSetSize);
-//			sCount.add(sSetSize);
-//			wCount.add(wholeSize);
-//			
 
-			
-//			for(java.util.Iterator<Integer> obj = rMap.keySet().iterator();obj.hasNext();){
-//				
-//				Integer i = obj.next();
-//				
-//				
-//				if(sMap.containsKey(i)){
-//					
-//					
-//					for(int j = 0;j < rMap.get(i).size();j++){
-//						
-//						FlickrValueWithCandidateTags value1 = rMap.get(i).get(j);
-//						
-//						//for the same tail, there is no need for comparing
-//						
-//						for(int k = 0; k < sMap.get(i).size();k++){
-//							FlickrValueWithCandidateTags value2 = sMap.get(i).get(k);
-//							
-//							
-//							tCompareCount++;
-//							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-//								sCompareCount++;
-//								if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
-//									
-//									oCompareCount++;
-//									if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-//										
-//										
-//										long ridA = value1.getId();
-//							            long ridB = value2.getId();
-//							            if (ridA < ridB) {
-//							                long rid = ridA;
-//							                ridA = ridB;
-//							                ridB = rid;
-//							            }
-//									
-//						            
-//						            
-//							            text.set(ridA + "%" + ridB);
-//							            context.write(text, new Text(""));
-//									}
-//								}
-//							}
-//						}
-//						
-//					}
-//				}
-//				
-//				if(sMap.containsKey(i+1)){
-//					System.out.println("SSSSSS"+ (i+1));
-//					
-//					for(int j = 0;j < rMap.get(i).size();j++){
-//						
-//						FlickrValueWithCandidateTags value1 = rMap.get(i).get(j);
-//						
-//						//for the same tail, there is no need for comparing
-//						
-//						for(int k = 0; k < sMap.get(i+1).size();k++){
-//							FlickrValueWithCandidateTags value2 = sMap.get(i+1).get(k);
-//							
-//							tCompareCount++;
-//							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-//								sCompareCount++;
-//								if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
-//									
-//									oCompareCount++;
-//									if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-//										
-//										
-//										long ridA = value1.getId();
-//							            long ridB = value2.getId();
-//							            if (ridA < ridB) {
-//							                long rid = ridA;
-//							                ridA = ridB;
-//							                ridB = rid;
-//							            }
-//									
-//						            
-//						            
-//							            text.set(ridA + "%" + ridB);
-//							            context.write(text, new Text(""));
-//									}
-//								}
-//							}
-//						}
-//						
-//						
-//					}
-//				}
-//
-//
-//				if(sMap.containsKey(i-1)){
-//					
-//					
-//					for(int j = 0;j < rMap.get(i).size();j++){
-//						
-//						FlickrValueWithCandidateTags value1 = rMap.get(i).get(j);
-//						
-//						//for the same tail, there is no need for comparing
-//						
-//						for(int k = 0; k < sMap.get(i-1).size();k++){
-//							FlickrValueWithCandidateTags value2 = sMap.get(i-1).get(k);
-//							tCompareCount++;
-//							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-//								sCompareCount++;
-//								if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
-//									
-//									oCompareCount++;
-//									if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-//										
-//										
-//										long ridA = value1.getId();
-//							            long ridB = value2.getId();
-//							            if (ridA < ridB) {
-//							                long rid = ridA;
-//							                ridA = ridB;
-//							                ridB = rid;
-//							            }
-//									
-//						            
-//						            
-//							            text.set(ridA + "%" + ridB);
-//							            context.write(text, new Text(""));
-//									}
-//								}
-//							}
-//						}
-//						
-//						
-//					}
-//				}
-//			}
-//
-//			
-//			rMap.clear();
-//			sMap.clear();
 			rIndex.clear();
 			sIndex.clear();
 		}
@@ -487,7 +278,6 @@ public class EGOOptimalWithReducerIndexReducer extends
 			long rC =0;
 			System.out.println("R data set");
 			for(long i : rCount){
-//				System.out.println(i);
 				if(i > rMax){
 					rMax = i;
 				}

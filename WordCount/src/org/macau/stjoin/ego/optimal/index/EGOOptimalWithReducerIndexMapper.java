@@ -29,16 +29,7 @@ public class EGOOptimalWithReducerIndexMapper extends
 	
 	protected void setup(Context context) throws IOException, InterruptedException {
 
-		System.out.println("Temporal mapper Start at " + System.currentTimeMillis());
-	}
-	
-	public static String convertDateToString(Date date){
-		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
-		return df.format(date);
-	}
-	
-	public static Date convertLongToDate(Long date){
-		return new Date(date);
+		System.out.println("EGO index mapper Start at " + System.currentTimeMillis());
 	}
 	
 	
@@ -61,7 +52,6 @@ public class EGOOptimalWithReducerIndexMapper extends
 		
 		long timeInterval = timestamp / FlickrSimilarityUtil.TEMPORAL_THRESHOLD;
 		
-//		outputValue = new FlickrValue(FlickrSimilarityUtil.getFlickrVallueFromString(value.toString()));
 		
 		outputValue.setTileNumber((int)timeInterval);
 		
@@ -78,7 +68,6 @@ public class EGOOptimalWithReducerIndexMapper extends
 		//Add the candidate tags
 		String textual = value.toString().split(":")[5];
 		
-	
 		
 		String textualTag = "";
 		
@@ -90,10 +79,11 @@ public class EGOOptimalWithReducerIndexMapper extends
 			//get the prefix values
 			int prefixLength = SimilarityUtil.getPrefixLength(textualList.length, FlickrSimilarityUtil.TEXTUAL_THRESHOLD);
 			
-			for(int i = 0; i < prefixLength;i++){
+			//for(int i = 0; i < prefixLength;i++){
+			for(int i = textualList.length-1; i >= textualList.length - prefixLength;i--){
 				
 				Integer tokenID = Integer.parseInt(textualList[i]);
-				if(i == prefixLength - 1){
+				if(i == textualList.length - prefixLength){
 					textualTag += tokenID;
 				}else{
 					textualTag += tokenID + ",";
@@ -317,6 +307,6 @@ public class EGOOptimalWithReducerIndexMapper extends
 		
 	}
 	protected void cleanup(Context context) throws IOException, InterruptedException {
-		System.out.println("The Temporal mapper end at " + System.currentTimeMillis() + "\n" );
+		System.out.println("The EGO index mapper end at " + System.currentTimeMillis() + "\n" );
 	}
 }
