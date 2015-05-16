@@ -7,21 +7,17 @@ package org.macau.stjoin.count.phase1;
  * 
  */
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Mapper.Context;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
-import org.macau.flickr.util.FlickrValue;
 
 public class TemporalCountMapper extends
-	Mapper<Object, Text, Text, IntWritable>{
+	Mapper<Object, Text, LongWritable, IntWritable>{
 	
 	
 	protected void setup(Context context) throws IOException, InterruptedException {
@@ -47,7 +43,7 @@ public class TemporalCountMapper extends
 		
 		
 		if(tag == FlickrSimilarityUtil.R_tag){
-			context.write(new Text(timeInterval + ""), new IntWritable(1));
+			context.write(new LongWritable(timeInterval), new IntWritable(1));
 		}
 
 		
