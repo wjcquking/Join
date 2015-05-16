@@ -3,12 +3,7 @@ package org.macau.local.file;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.macau.flickr.temporal.TemporalUtil;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.local.util.FlickrData;
 import org.macau.local.util.FlickrDataLocalUtil;
@@ -19,9 +14,6 @@ public class TemporalFirst {
 	/**
 	 * TSO: Temporal Spatial Textual
 	 */
-	public static void TSOJoin(){
-		
-	}
 	public static void main(String[] args) throws IOException{
 		
 		ArrayList<FlickrData> rRecords = ReadFlickrData.readFileByLines(FlickrDataLocalUtil.rDataPath);
@@ -34,7 +26,6 @@ public class TemporalFirst {
 		Long startTime = System.currentTimeMillis();
 		
 		FileWriter writer = new FileWriter(FlickrDataLocalUtil.resultPath);
-		
 
 		
 		for (int i = 0; i < rRecords.size(); i++) {
@@ -50,12 +41,12 @@ public class TemporalFirst {
 		    		if(FlickrSimilarityUtil.TemporalSimilarity(rec1, rec2)){
 		    	
 		    		firstCount++;
-//		    		if(FlickrSimilarityUtil.SpatialSimilarity(rec1, rec2)){
+		    		if(FlickrSimilarityUtil.SpatialSimilarity(rec1, rec2)){
 		    		
 		    		
 		    			SecondCount++;
 		    				
-//		    			if (!rec1.getTextual().equals("null") && !rec2.getTextual().equals("null") && FlickrSimilarityUtil.TextualSimilarity(rec1, rec2)) {
+		    			if (!rec1.getTextual().equals("null") && !rec2.getTextual().equals("null") && FlickrSimilarityUtil.TextualSimilarity(rec1, rec2)) {
 		 		        	ThirdCount++;
 		 		            long ridA = rec1.getId();
 		 		            long ridB = rec2.getId();
@@ -67,9 +58,9 @@ public class TemporalFirst {
 //		 		            writer.write(ridA + "%" + ridB +"\n");
 		 		        }
 		    			
-//		    		}
+		    		}
 		            
-//		    	}
+		    	}
 		    	
 		    }
 		    
