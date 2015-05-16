@@ -19,17 +19,14 @@ import org.macau.flickr.util.FlickrValue;
  * Phase 1
  * the mapper read the data, and the same key to the same reducer
  */
-public class TemporalJoinJob {
+public class MapperSideJoinPhase2Job {
 
-	public static boolean TemporalSimilarityBasicJoin(Configuration conf,int reducerNumber) throws Exception{
+	public static boolean MapperSideBasicJoin(Configuration conf,int reducerNumber) throws Exception{
 		
 		Job basicJob = new Job(conf,"Temporal Basic Similarity Join");
 		basicJob.setJarByClass(TemporalSimilarityJoin.class);
 		
-		basicJob.setMapperClass(TemporalJoinMapper.class);
-//		basicJob.setCombinerClass(TemporalJoinReducer.class);
-		
-//		basicJob.setReducerClass(TemporalJoinReducer.class);
+		basicJob.setMapperClass(MapperSideJoinMapper.class);
 		
 		basicJob.setMapOutputKeyClass(Text.class);
 		basicJob.setMapOutputValueClass(Text.class);
