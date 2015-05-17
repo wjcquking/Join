@@ -7,8 +7,6 @@ package org.macau.stjoin.ego.optimal.index;
  * 
  */
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -16,7 +14,6 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
-import org.macau.flickr.util.FlickrValue;
 import org.macau.flickr.util.FlickrValueWithCandidateTags;
 import org.macau.util.SimilarityUtil;
 

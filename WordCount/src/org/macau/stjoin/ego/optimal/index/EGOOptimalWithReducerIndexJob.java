@@ -8,7 +8,6 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.macau.flickr.job.TemporalSimilarityJoin;
 import org.macau.flickr.util.FlickrSimilarityUtil;
-import org.macau.flickr.util.FlickrValue;
 import org.macau.flickr.util.FlickrValueWithCandidateTags;
 
 
@@ -17,8 +16,8 @@ import org.macau.flickr.util.FlickrValueWithCandidateTags;
  * @author hadoop
  * 
  * In the original EGO optimal algorithm, we only consider the partition value in the mapper, we don't consider
- * the filter ability in the reducer
- * So I propose a new algorithm
+ * the index in the reducer
+ * So I propose a new algorithm call EGO with 
  * In the Mapper, each record record the candidate tag in all the feature
  * In the reducer, Build the index according to the candidate tag
  */
@@ -30,7 +29,6 @@ public class EGOOptimalWithReducerIndexJob {
 		basicJob.setJarByClass(TemporalSimilarityJoin.class);
 		
 		basicJob.setMapperClass(EGOOptimalWithReducerIndexMapper.class);
-//		basicJob.setCombinerClass(TemporalJoinReducer.class);
 		
 		basicJob.setReducerClass(EGOOptimalWithReducerIndexReducer.class);
 		
