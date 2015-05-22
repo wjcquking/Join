@@ -36,7 +36,7 @@ public class EGOOptimalWithReducerFilterReducer extends
 
 		protected void setup(Context context) throws IOException, InterruptedException {
 
-			System.out.println("Temporal reducer Start at " + System.currentTimeMillis());
+			System.out.println("reducer Start at " + System.currentTimeMillis());
 		}
 		
 		
@@ -221,7 +221,6 @@ public class EGOOptimalWithReducerFilterReducer extends
 				}
 				
 				if(sMap.containsKey(i+1)){
-					System.out.println("SSSSSS"+ (i+1));
 					
 					for(int j = 0;j < rMap.get(i).size();j++){
 						
