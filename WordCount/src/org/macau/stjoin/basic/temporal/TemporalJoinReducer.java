@@ -45,6 +45,7 @@ public class TemporalJoinReducer extends
 			for(FlickrValue value:values){
 				
 				FlickrValue fv = new FlickrValue(value);
+				fv.setOthers("");
 				
 			    if(fv.getTag() == FlickrSimilarityUtil.R_tag){
 			    	

@@ -30,7 +30,6 @@ public class TemporalJoinJob {
 		basicJob.setJarByClass(TemporalSimilarityJoin.class);
 		
 		basicJob.setMapperClass(TemporalJoinMapper.class);
-//		basicJob.setCombinerClass(TemporalJoinReducer.class);
 		
 		basicJob.setReducerClass(TemporalJoinReducer.class);
 		
