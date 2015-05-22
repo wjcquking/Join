@@ -20,7 +20,6 @@ package org.macau.stjoin.basic.spatial.threshold;
  */
 
 
-
 import java.io.IOException;
 
 import org.apache.hadoop.io.Text;
@@ -29,6 +28,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
+import org.macau.stjoin.util.DataSimilarityUtil;
 
 /**
  * 
@@ -67,37 +67,22 @@ Mapper<Object, Text, Text, FlickrValue>{
 				
 		int tag = FlickrSimilarityUtil.getTagByFileName(fileName);
 		
-
+		DataSimilarityUtil.getFlickrValue(outputValue, value.toString());
 		
-		long id =Long.parseLong(value.toString().split(":")[0]);
-		double lat = Double.parseDouble(value.toString().split(":")[2]);
-		double lon = Double.parseDouble(value.toString().split(":")[3]);
-		long timestamp = Long.parseLong(value.toString().split(":")[4]);
-		
-
-		
-		outputValue.setId(id);
-		outputValue.setLat(lat);
-		outputValue.setLon(lon);
 		outputValue.setTag(tag);
-		outputValue.setTimestamp(timestamp);
+		
 		double thres = Math.pow(FlickrSimilarityUtil.DISTANCE_THRESHOLD, 0.5);
 		
-		int x = (int) (lat /thres);
-		int y = (int)(lon/thres );
+		int x = (int) (outputValue.getLat() /thres);
+		int y = (int)(outputValue.getLon()/thres );
 		
-		
-		
-		outputValue.setTiles(value.toString().split(":")[5]);
-		outputValue.setOthers(value.toString().split(":")[6]);
 		
 		/*
 		 * for R, there is only need one tile
 		 * but for S, the data should send to other tiles
 		 */
-		String textual = value.toString().split(":")[5];
 		
-		if(!textual.equals("null")){
+		if(!outputValue.getTiles().equals("null")){
 			if(tag == FlickrSimilarityUtil.R_tag){
 				outputValue.setTileNumber(0);
 				outputKey.set("x:" + x + ":y:" + y);

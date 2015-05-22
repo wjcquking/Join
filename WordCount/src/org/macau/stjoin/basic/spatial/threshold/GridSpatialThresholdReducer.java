@@ -53,6 +53,8 @@ public class GridSpatialThresholdReducer extends
 			 * 
 			 */
 			FlickrValue fv = new FlickrValue(value);
+			fv.setOthers("A");
+			
 			
 			//R
 			if(fv.getTag() == 0){
@@ -168,11 +170,8 @@ public class GridSpatialThresholdReducer extends
 		long rMax = 0;
 		long rMin = 1000000;
 		long rC =0;
-//		System.out.println("R data set");
 		
 		for(long i : rCount){
-			
-//			System.out.println(i);
 			
 			if(i > rMax){
 				rMax = i;
@@ -192,7 +191,6 @@ public class GridSpatialThresholdReducer extends
 		long sMin = 1000000;
 		long sC =0;
 		for(long i : sCount){
-//			System.out.println(i + ";");
 			if(i > sMax){
 				sMax = i;
 			}
