@@ -3,7 +3,8 @@ package org.macau.stjoin.mapper.basic.phase2;
 /**
  * The Mapper uses the temporal information
  * 
- * 
+ * The same key in one file
+ * each Mapper  read one file
  */
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class MapperSideJoinMapper extends
 	
 	protected void setup(Context context) throws IOException, InterruptedException {
 
-		System.out.println("Temporal mapper Start at " + System.currentTimeMillis());
+		System.out.println("The mapper Start at " + System.currentTimeMillis());
 	}
 	
 	private final List<FlickrValue> rList = new ArrayList<FlickrValue>();
@@ -38,11 +39,13 @@ public class MapperSideJoinMapper extends
 		//550	0:37842881:87148:48.858188:2.29449:665337600000:0;8;13:AAAAAAAAAA
 		
 		int timeinterval = Integer.parseInt(value.toString().split("\\s+")[0]);
+		
 		if(currentTimeInterval == 0){
 			currentTimeInterval = timeinterval;
 		}
 		
 		String record = value.toString().split("\\s+")[1];
+		
 		String[] recordArray = record.split(":");
 		
 		fv.setTag(Integer.parseInt(recordArray[0]));
@@ -53,9 +56,8 @@ public class MapperSideJoinMapper extends
 		fv.setTiles(record.split(":")[6]);
 		
 		
-		String textual = record.split(":")[6];
 		
-		if(!textual.equals("null")){
+		if(!fv.getTiles().equals("null")){
 			
 			if(timeinterval == currentTimeInterval){
 			
@@ -122,6 +124,6 @@ public class MapperSideJoinMapper extends
 		
 	}
 	protected void cleanup(Context context) throws IOException, InterruptedException {
-		System.out.println("The Temporal mapper end at " + System.currentTimeMillis() + "\n");
+		System.out.println("The mapper end at " + System.currentTimeMillis() + "\n");
 	}
 }
