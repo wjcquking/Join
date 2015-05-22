@@ -7,7 +7,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 
-public class TemporalJoinReducer extends
+public class MapSideJoinReducer extends
 	Reducer<LongWritable, Text, LongWritable, Text>{
 	
 		protected void setup(Context context) throws IOException, InterruptedException {

@@ -7,7 +7,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.macau.flickr.job.TemporalSimilarityJoin;
+
 import org.macau.flickr.util.FlickrSimilarityUtil;
 
 
@@ -22,12 +22,12 @@ public class MapSideJoinJob {
 
 	public static boolean TemporalSimilarityBasicJoin(Configuration conf,int reducerNumber) throws Exception{
 		
-		Job basicJob = new Job(conf,"Temporal Basic Similarity Join");
-		basicJob.setJarByClass(TemporalSimilarityJoin.class);
+		Job basicJob = new Job(conf,"Map Side Join Phase 1");
+		basicJob.setJarByClass(MapSideJoinJob.class);
 		
-		basicJob.setMapperClass(TemporalJoinMapper.class);
+		basicJob.setMapperClass(MapSideJoinMapper.class);
 		
-		basicJob.setReducerClass(TemporalJoinReducer.class);
+		basicJob.setReducerClass(MapSideJoinReducer.class);
 		
 		basicJob.setMapOutputKeyClass(LongWritable.class);
 		basicJob.setMapOutputValueClass(Text.class);

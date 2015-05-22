@@ -15,7 +15,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 
-public class TemporalJoinMapper extends
+public class MapSideJoinMapper extends
 	Mapper<Object, Text, LongWritable, Text>{
 	
 	private final LongWritable outputKey = new LongWritable();
