@@ -41,6 +41,7 @@ Reducer<IntWritable, FlickrValue, Text, Text>{
 		for(FlickrValue value:values){
 			
 			FlickrValue fv = new FlickrValue(value);
+			fv.setOthers("A");
 			
 		    if(value.getTag() == FlickrSimilarityUtil.R_tag){
 		    	

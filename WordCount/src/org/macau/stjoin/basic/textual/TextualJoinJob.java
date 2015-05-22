@@ -23,8 +23,6 @@ public static boolean TextualSimilarityBasicJoin(Configuration conf,int reducerN
 		basicJob.setMapOutputKeyClass(IntWritable.class);
 		basicJob.setMapOutputValueClass(FlickrValue.class);
 		
-//		basicJob.setOutputKeyClass(Text.class);
-//		basicJob.setOutputValueClass(Text.class);
 		basicJob.setNumReduceTasks(reducerNumber);
 		
 		FileInputFormat.addInputPath(basicJob, new Path(FlickrSimilarityUtil.flickrInputPath));

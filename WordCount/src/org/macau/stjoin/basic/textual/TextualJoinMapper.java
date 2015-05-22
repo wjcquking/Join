@@ -9,6 +9,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
+import org.macau.stjoin.util.DataSimilarityUtil;
 import org.macau.util.SimilarityUtil;
 
 
@@ -32,20 +33,14 @@ public class TextualJoinMapper extends
 		
 		int tag = FlickrSimilarityUtil.getTagByFileName(fileName);
 		
-		outputValue = new FlickrValue(FlickrSimilarityUtil.getFlickrVallueFromString(value.toString()));
+		DataSimilarityUtil.getFlickrValue(outputValue, value.toString());
 		
-		System.out.println(outputValue.getTiles());
 			
 		outputValue.setTag(tag);
 		
-		
-		String textual = value.toString().split(":")[5];
-		outputValue.setOthers(value.toString().split(":")[6]);
-		
-		
-		if(!textual.equals("null")){
+		if(!outputValue.getTiles().equals("null")){
 			
-			String[] textualList = textual.split(";");
+			String[] textualList = outputValue.getTiles().split(";");
 			
 			
 			//get the prefix values
