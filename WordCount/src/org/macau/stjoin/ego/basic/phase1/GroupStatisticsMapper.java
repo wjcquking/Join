@@ -45,11 +45,12 @@ public class GroupStatisticsMapper extends
 		value = new Text(tag + " " + timeInterval + " "+ value.toString());
 		
 		
-		if(tag == FlickrSimilarityUtil.S_tag){
+		if(tag == FlickrSimilarityUtil.R_tag){
 			
+			context.write(new LongWritable(timeInterval), value);
 			
 		}else{
-			context.write(new LongWritable(timeInterval), value);
+			
 		}
 	
 		

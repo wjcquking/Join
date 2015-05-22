@@ -39,7 +39,7 @@ public class SuperEGOJoinMapper extends
 	public void map(Object key, Text value, Context context)
 			throws IOException, InterruptedException {
 		
-		//the data  example--0 837	0 837 1314836729:181792:48.874397:2.294511:1013548725000:0:AAAA
+		//the data  example-----0 837	0 837 1314836729:181792:48.874397:2.294511:1013548725000:0:AAAA
 		String[] values = value.toString().split("\\s+");
 		
 		String record = values[4];
@@ -64,25 +64,29 @@ public class SuperEGOJoinMapper extends
 		outputValue.setTag(tag);
 		
 		//the textual information
-		outputValue.setTiles(record.toString().split(":")[5]);
-		outputValue.setOthers(record.toString().split(":")[6]);
+//		outputValue.setTiles(record.toString().split(":")[5]);
+//		outputValue.setOthers(record.toString().split(":")[6]);
+//		String textual = value.toString().split(":")[5];
 		
+		outputValue.setTiles(record.toString().split(":")[4]);
+		outputValue.setOthers(record.toString().split(":")[5]);
+		String textual = value.toString().split(":")[4];
 		
 		outputValue.setTimestamp(timestamp);
 		
-		String textual = value.toString().split(":")[5];
+		
 		
 		if(!textual.equals("null")){
 			if(tag == FlickrSimilarityUtil.S_tag){
 				
-				for(int i = 0; i < 40;i++){
+				for(int i = 0; i < 10;i++){
 					outputKey.set(group + " " + i);
 					outputValue.setTileNumber((int)timeInterval);
 					context.write(outputKey, outputValue);
 				}
 			}else if(tag == FlickrSimilarityUtil.R_tag){
 				
-				for(int i = 0; i < 40;i++){
+				for(int i = 0; i < 10;i++){
 					outputKey.set(i + " " + group) ;
 					outputValue.setTileNumber((int)timeInterval);
 					context.write(outputKey, outputValue);

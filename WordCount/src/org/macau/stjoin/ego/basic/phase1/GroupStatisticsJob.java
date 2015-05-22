@@ -7,7 +7,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.macau.flickr.job.TemporalSimilarityJoin;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 
 
@@ -23,7 +22,7 @@ public class GroupStatisticsJob {
 	public static boolean TemporalSimilarityBasicJoin(Configuration conf,int reducerNumber) throws Exception{
 		
 		Job basicJob = new Job(conf,"Super EGO Join Phase 1");
-		basicJob.setJarByClass(TemporalSimilarityJoin.class);
+		basicJob.setJarByClass(GroupStatisticsJob.class);
 		
 		basicJob.setMapperClass(GroupStatisticsMapper.class);
 		

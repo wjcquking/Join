@@ -61,6 +61,7 @@ public class SuperEGOJoinReducer extends
 			for(FlickrValue value:values){
 				
 				FlickrValue fv = new FlickrValue(value);
+				fv.setOthers("A");
 				
 			    if(fv.getTag() == FlickrSimilarityUtil.R_tag){
 			    	
