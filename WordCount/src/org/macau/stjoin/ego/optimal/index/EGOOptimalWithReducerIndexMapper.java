@@ -15,6 +15,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValueWithCandidateTags;
+import org.macau.stjoin.util.DataSimilarityUtil;
 import org.macau.util.SimilarityUtil;
 
 public class EGOOptimalWithReducerIndexMapper extends
@@ -41,36 +42,38 @@ public class EGOOptimalWithReducerIndexMapper extends
 		
 		int tag = FlickrSimilarityUtil.getTagByFileName(fileName);
 		
-		long id =Long.parseLong(value.toString().split(":")[0]);
-		double lat = Double.parseDouble(value.toString().split(":")[2]);
-		double lon = Double.parseDouble(value.toString().split(":")[3]);
-		long timestamp = Long.parseLong(value.toString().split(":")[4]);
+		DataSimilarityUtil.getFlickrValue(outputValue, value.toString());
+		
+//		long id =Long.parseLong(value.toString().split(":")[0]);
+//		double lat = Double.parseDouble(value.toString().split(":")[2]);
+//		double lon = Double.parseDouble(value.toString().split(":")[3]);
+//		long timestamp = Long.parseLong(value.toString().split(":")[4]);
 		
 		
-		long timeInterval = timestamp / FlickrSimilarityUtil.TEMPORAL_THRESHOLD;
+		long timeInterval = outputValue.getTimestamp() / FlickrSimilarityUtil.TEMPORAL_THRESHOLD;
 		
 		
 		outputValue.setTileNumber((int)timeInterval);
 		
-		outputValue.setId(id);
-		outputValue.setLat(lat);
-		outputValue.setLon(lon);
+//		outputValue.setId(id);
+//		outputValue.setLat(lat);
+//		outputValue.setLon(lon);
 		outputValue.setTag(tag);
 		
 		//the textual information
-		outputValue.setTiles(value.toString().split(":")[5]);
-		outputValue.setOthers(value.toString().split(":")[6]);
-		
-		
-		//Add the candidate tags
-		String textual = value.toString().split(":")[5];
+//		outputValue.setTiles(value.toString().split(":")[5]);
+//		outputValue.setOthers(value.toString().split(":")[6]);
+//		
+//		
+//		//Add the candidate tags
+//		String textual = value.toString().split(":")[5];
 		
 		
 		String textualTag = "";
 		
-		if(!textual.equals("null")){
+		if(!outputValue.getTiles().equals("null")){
 			
-			String[] textualList = textual.split(";");
+			String[] textualList = outputValue.getTiles().split(";");
 			
 			
 			//get the prefix values
@@ -96,8 +99,8 @@ public class EGOOptimalWithReducerIndexMapper extends
 		
 		double thres = Math.pow(FlickrSimilarityUtil.DISTANCE_THRESHOLD, 0.5);
 		
-		int x = (int) (lat /thres);
-		int y = (int)(lon/thres );
+		int x = (int) (outputValue.getLat() /thres);
+		int y = (int)(outputValue.getLon()/thres );
 			
 		spatialTag =  x + ":" + y;
 		temporalTag = timeInterval + "";
@@ -105,7 +108,7 @@ public class EGOOptimalWithReducerIndexMapper extends
 		
 		String candidateTags = temporalTag + "#"+ spatialTag + "#"+textualTag;
 		
-		outputValue.setTimestamp(timestamp);
+//		outputValue.setTimestamp(timestamp);
 		outputValue.setCandidateTags(candidateTags);
 		
 		//for the R data
@@ -213,7 +216,7 @@ public class EGOOptimalWithReducerIndexMapper extends
 		 * 
 		 ****************************************************************/
 		
-		if(!textual.equals("null")){
+		if(!outputValue.getTiles().equals("null")){
 		
 		if(tag == FlickrSimilarityUtil.S_tag){
 			

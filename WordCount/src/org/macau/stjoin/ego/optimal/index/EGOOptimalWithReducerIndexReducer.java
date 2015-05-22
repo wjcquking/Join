@@ -31,7 +31,7 @@ public class EGOOptimalWithReducerIndexReducer extends
 
 		protected void setup(Context context) throws IOException, InterruptedException {
 
-			System.out.println("Temporal reducer Start at " + System.currentTimeMillis());
+			System.out.println("The reducer Start at " + System.currentTimeMillis());
 		}
 		
 		private final Map<String, HashMap<Integer, ArrayList<FlickrValueWithCandidateTags>>> rIndex = new HashMap<String,HashMap<Integer,ArrayList<FlickrValueWithCandidateTags>>>();
