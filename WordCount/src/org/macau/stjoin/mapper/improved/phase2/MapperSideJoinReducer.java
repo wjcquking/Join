@@ -35,7 +35,7 @@ public class MapperSideJoinReducer extends
 
 		protected void setup(Context context) throws IOException, InterruptedException {
 
-			System.out.println("Temporal reducer Start at " + System.currentTimeMillis());
+			System.out.println("The reducer Start at " + System.currentTimeMillis());
 		}
 		
 		public void reduce(LongWritable key, Iterable<FlickrValue> values,

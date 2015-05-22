@@ -15,6 +15,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
+import org.macau.stjoin.util.DataSimilarityUtil;
 
 public class MapperSideJoinMapper extends
 	Mapper<Object, Text, LongWritable, FlickrValue>{
@@ -30,7 +31,7 @@ public class MapperSideJoinMapper extends
 	
 	protected void setup(Context context) throws IOException, InterruptedException {
 
-		System.out.println("Temporal mapper Start at " + System.currentTimeMillis());
+		System.out.println("The mapper Start at " + System.currentTimeMillis());
 	}
 	
 	public void map(Object key, Text value, Context context)
@@ -40,15 +41,14 @@ public class MapperSideJoinMapper extends
 		FlickrValue fv = new FlickrValue();
 		
 		
-		//550	0:37842881:87148:48.858188:2.29449:665337600000:0;8;13:AAAAAAAAAA
+		//550	0   37842881:87148:48.858188:2.29449:665337600000:0;8;13:AAAAAAAAAA
 		
 		int timeinterval = Integer.parseInt(value.toString().split("\\s+")[0]);
+		
+		
 		fv.setTileNumber(timeinterval);
 		fv.setTag(Integer.parseInt(value.toString().split("\\s+")[1]));
-//		startTimeInterval = Integer.parseInt(value.toString().split("\\s+")[2]);
-//		endTimeInterval = Integer.parseInt(value.toString().split("\\s+")[3]);
 		
-//		System.out.println(timeinterval);
 		if(timeinterval < startTimeInterval){
 			startTimeInterval = timeinterval;
 		}
@@ -57,27 +57,12 @@ public class MapperSideJoinMapper extends
 			endTimeInterval = timeinterval;
 		}
 		
-//		System.out.println("A" + startTimeInterval);
 		String record = value.toString().split("\\s+")[2];
-		String[] recordArray = record.split(":");
 		
-		fv.setId(Long.parseLong(recordArray[0]));
-		fv.setLat(Double.parseDouble(recordArray[2]));
-		fv.setLon(Double.parseDouble(recordArray[3]));
-		fv.setTimestamp(Long.parseLong(recordArray[4]));
-//		fv.setTiles(record.split(":")[5]);
-//		fv.setOthers(record.split(":")[6]);
-//		
-//		
-//		String textual = record.split(":")[5];
+		DataSimilarityUtil.getFlickrValue(fv, record);
+
 		
-		fv.setTiles(record.split(":")[4]);
-		fv.setOthers(record.split(":")[4]);
-		
-		
-		String textual = record.split(":")[4];
-		
-		if(!textual.equals("null")){
+		if(!fv.getTiles().equals("null")){
 			
 			if(fv.getTag() == FlickrSimilarityUtil.R_tag){
 				
@@ -211,6 +196,6 @@ public class MapperSideJoinMapper extends
 		}
 		rMap.clear();
 		sMap.clear();
-		System.out.println("The Temporal mapper end at " + System.currentTimeMillis() + "\n");
+		System.out.println("The mapper end at " + System.currentTimeMillis() + "\n");
 	}
 }
