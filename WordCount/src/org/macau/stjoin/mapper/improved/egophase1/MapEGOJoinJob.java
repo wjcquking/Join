@@ -6,7 +6,6 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.macau.flickr.job.TemporalSimilarityJoin;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
 
@@ -19,12 +18,12 @@ import org.macau.flickr.util.FlickrValue;
  * because we find the optimal partition solution
  * 
  */
-public class EGOOptimalJoinJob {
+public class MapEGOJoinJob {
 
 	public static boolean EGOOptimalJoin(Configuration conf,int reducerNumber) throws Exception{
 		
 		Job basicJob = new Job(conf,"EGO optimal Join");
-		basicJob.setJarByClass(TemporalSimilarityJoin.class);
+		basicJob.setJarByClass(MapEGOJoinJob.class);
 		
 		basicJob.setMapperClass(EGOOptimalJoinMapper.class);
 		
