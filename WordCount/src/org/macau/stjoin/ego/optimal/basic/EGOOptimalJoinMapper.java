@@ -7,8 +7,6 @@ package org.macau.stjoin.ego.optimal.basic;
  * 
  */
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -17,6 +15,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
+import org.macau.stjoin.util.DataSimilarityUtil;
 
 public class EGOOptimalJoinMapper extends
 	Mapper<Object, Text, LongWritable, FlickrValue>{
@@ -27,16 +26,7 @@ public class EGOOptimalJoinMapper extends
 	
 	protected void setup(Context context) throws IOException, InterruptedException {
 
-		System.out.println("Temporal mapper Start at " + System.currentTimeMillis());
-	}
-	
-	public static String convertDateToString(Date date){
-		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
-		return df.format(date);
-	}
-	
-	public static Date convertLongToDate(Long date){
-		return new Date(date);
+		System.out.println("mapper Start at " + System.currentTimeMillis());
 	}
 	
 	
@@ -51,26 +41,13 @@ public class EGOOptimalJoinMapper extends
 		
 		int tag = FlickrSimilarityUtil.getTagByFileName(fileName);
 		
-		long id =Long.parseLong(value.toString().split(":")[0]);
-		double lat = Double.parseDouble(value.toString().split(":")[2]);
-		double lon = Double.parseDouble(value.toString().split(":")[3]);
-		long timestamp = Long.parseLong(value.toString().split(":")[4]);
+		DataSimilarityUtil.getFlickrValue(outputValue, value.toString());
 		
+		long timeInterval = outputValue.getTimestamp() / FlickrSimilarityUtil.TEMPORAL_THRESHOLD;
 		
-		long timeInterval = timestamp / FlickrSimilarityUtil.TEMPORAL_THRESHOLD;
 		
 		outputValue.setTileNumber((int)timeInterval);
-		
-		outputValue.setId(id);
-		outputValue.setLat(lat);
-		outputValue.setLon(lon);
 		outputValue.setTag(tag);
-		outputValue.setTimestamp(timestamp);
-		
-		//the textual information
-		outputValue.setTiles(value.toString().split(":")[5]);
-		outputValue.setOthers(value.toString().split(":")[6]);
-		
 		
 		
 		//for the R data
@@ -153,7 +130,12 @@ public class EGOOptimalJoinMapper extends
 //		int[][] bounds = {{13959,2114,112},{14059,2114,112},{14115,2114,112},{14171,2114,112},{14186,2114,112},{14204,2114,112},{14224,2114,112},{14245,2114,112},{14263,2114,112},{14279,2114,112},{14294,2114,112},{14309,2114,112},{14322,2114,112},{14337,2114,112},{14354,2114,112},{14371,2114,112},{14387,2114,112},{14404,2114,112},{14421,2114,112},{14436,2114,112},{14451,2114,112},{14466,2114,112},{14481,2114,112},{14498,2114,112},{14516,2114,112},{14553,2114,112},{14597,2114,112},{14669,2114,112},{14781,2114,112},{14862,2114,112}};
 		
 
-		
+		//Gawalla
+//		int[][] bounds = {{14278,2114,112},{14519,2114,112},{14524,2114,112},{14528,2114,112},{14532,2114,112},{14534,2114,112},{14536,2114,112},{14539,2114,112},{14541,2114,112},{14543,2114,112},{14545,2114,112},{14547,2114,112},{14624,2114,112},{14663,2114,112},{14685,2114,112},{14700,2114,112},{14716,2114,112},{14733,2114,112},{14754,2114,112},{14770,2114,112},{14784,2114,112},{14797,2114,112},{14815,2114,112},{14830,2114,112},{14844,2114,112},{14856,2114,112},{14867,2114,112},{14877,2114,112},{14886,2114,112},{14895,2114,112}};
+
+//		int[][] bounds = {{14278,2114,112},{14616,2114,112},{14655,2114,112},{14683,2114,112},{14696,2114,112},{14712,2114,112},{14728,2114,112},{14746,2114,112},{14763,2114,112},{14777,2114,112},{14790,2114,112},{14801,2114,112},{14812,2114,112},{14821,2114,112},{14828,2114,112},{14835,2114,112},{14841,2114,112},{14847,2114,112},{14853,2114,112},{14858,2114,112},{14863,2114,112},{14868,2114,112},{14872,2114,112},{14877,2114,112},{14882,2114,112},{14886,2114,112},{14890,2114,112},{14893,2114,112},{14897,2114,112},{14899,2114,112}};
+
+//		int[][] bounds = {{142780,2114,112},{146160,2114,112},{146550,2114,112},{146830,2114,112},{146960,2114,112},{147120,2114,112},{147280,2114,112},{147460,2114,112},{147630,2114,112},{147770,2114,112},{147900,2114,112},{148010,2114,112},{148120,2114,112},{148210,2114,112},{148280,2114,112},{148350,2114,112},{148410,2114,112},{148470,2114,112},{148530,2114,112},{148580,2114,112},{148630,2114,112},{148680,2114,112},{148720,2114,112},{148770,2114,112},{148820,2114,112},{148860,2114,112},{148900,2114,112},{148930,2114,112},{148970,2114,112},{148990,2114,112}};
 
 		//The Original temporal partition, for each time interval, it is a partition, for the R
 		//the time interval is the key, while for the S set, copy to other partition in the bound
@@ -169,10 +151,8 @@ public class EGOOptimalJoinMapper extends
 		 * 
 		 ****************************************************************/
 		
-		String textual = value.toString().split(":")[5];
 		
-		
-		if(!textual.equals("null")){
+		if(!outputValue.getTiles().equals("null")){
 		
 		if(tag == FlickrSimilarityUtil.S_tag){
 			
@@ -264,6 +244,6 @@ public class EGOOptimalJoinMapper extends
 		
 	}
 	protected void cleanup(Context context) throws IOException, InterruptedException {
-		System.out.println("The Temporal mapper end at " + System.currentTimeMillis() + "\n" );
+		System.out.println("The mapper end at " + System.currentTimeMillis() + "\n" );
 	}
 }

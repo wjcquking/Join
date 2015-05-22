@@ -2,7 +2,6 @@ package org.macau.stjoin.ego.optimal.basic;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +12,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
-
-import org.macau.stjoin.basic.temporal.TemporalComparator;;
 
 
 public class EGOOptimalJoinReducer extends
@@ -101,20 +98,20 @@ public class EGOOptimalJoinReducer extends
 			for(java.util.Iterator<Integer> i = rMap.keySet().iterator();i.hasNext();){
 				
 				
-				TemporalComparator comp = new TemporalComparator();
+//				TemporalComparator comp = new TemporalComparator();
 				int obj = i.next();
-				System.out.println("R:" + obj + " " + rMap.get(obj).size());
-				Collections.sort(rMap.get(obj),comp);
+//				System.out.println("R:" + obj + " " + rMap.get(obj).size());
+//				Collections.sort(rMap.get(obj),comp);
 				rSetSize += rMap.get(obj).size();
 				
 			}
 			
 			for(java.util.Iterator<Integer> i = sMap.keySet().iterator();i.hasNext();){
 				
-				TemporalComparator comp = new TemporalComparator();
+//				TemporalComparator comp = new TemporalComparator();
 				int obj = i.next();
-				System.out.println("S:" + obj + "  " + sMap.get(obj).size());
-				Collections.sort(sMap.get(obj),comp);
+//				System.out.println("S:" + obj + "  " + sMap.get(obj).size());
+//				Collections.sort(sMap.get(obj),comp);
 				sSetSize += sMap.get(obj).size();
 				
 			}
@@ -173,7 +170,6 @@ public class EGOOptimalJoinReducer extends
 				}
 				
 				if(sMap.containsKey(i+1)){
-					System.out.println("SSSSSS"+ (i+1));
 					
 					for(int j = 0;j < rMap.get(i).size();j++){
 						
