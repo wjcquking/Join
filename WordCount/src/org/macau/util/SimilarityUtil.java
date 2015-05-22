@@ -21,7 +21,10 @@ public class SimilarityUtil {
 	
 	public static final double distanceThreashold = 5;
 	
-	
+	/*
+	 * we can find the calculation in "Can We Beat the Prefix Filtering?
+	 * An Adaptive Framework for Similarity Join and Search "
+	 */
 	public static int getPrefixLength(int length,double alpha){
 		if (length == 0) {
             return 0;
