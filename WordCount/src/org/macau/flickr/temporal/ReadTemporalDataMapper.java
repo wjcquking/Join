@@ -1,10 +1,6 @@
 package org.macau.flickr.temporal;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -24,21 +20,6 @@ public class ReadTemporalDataMapper extends
 	
 	private final FlickrValue outputValue = new FlickrValue();
 	
-	public static String convertDateToString(Date date){
-		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
-		return df.format(date);
-	}
-	
-	public static Date convertLongToDate(Long date){
-		return new Date(date);
-	}
-	
-	/**
-	 * Convert the timestamp to the Date
-	 * use the day as key
-	 * the all value as a value
-	 * use the timestamp to refine and compare the distance
-	 */
 	
 	public void map(Object key, Text value, Context context)
 			throws IOException, InterruptedException {
