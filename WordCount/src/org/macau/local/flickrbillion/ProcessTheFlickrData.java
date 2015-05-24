@@ -3,13 +3,14 @@ package org.macau.local.flickrbillion;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProcessTheFlickrData {
 	
 	public static void main(String[] args){
 		System.out.println("The billion flickr data");
-		File file = new File("D:\\rawData.txt");
+		File file = new File("E:\\Backup\\Flickr_yahoo labs\\yfcc100m_dataset-1\\yfcc100m_dataset-1");
 		File infoFile = new File("D:\\info.txt");
 		
 		BufferedReader reader = null;
@@ -30,46 +31,22 @@ public class ProcessTheFlickrData {
 			
 			
 			String tempString = null;
+			int count =0;
+			Set<String> user = new HashSet<String>();
 			
 			while((tempString = reader.readLine()) != null){
-				char [] temp = tempString.toCharArray();
-				int count = 0;
-				
-				
-//				for(int i = temp.length - 2; i > 0;i--){
-//					if(temp[i] == ' '){
-//						count++;
-//					}else{
-//						if(temp[i+1] == ' '){
-//							System.out.print("  " + count);
-//						}
-//						count=0;
-//					}
-//					
-//				}
-//				System.out.println();
-//				
-//				System.out.println(new Date(1381464628000L));
-				
-//				for(int i = 1; i < temp.length;i++){
-//					if(temp[i] == ' '){
-//						count++;
-//					}else{
-//						if(temp[i-1] == ' '){
-//							System.out.print("  " + count);
-//						}
-//						count=0;
-//					}
-//					
-//				}
-//				System.out.println();
-				
+
 				String[] flickrData = tempString.split("\t");
-				System.out.println(flickrData.length);
 				
-				for(int i = 0; i < flickrData.length;i++){
-					System.out.println(infoArray[i] + "---" + flickrData[i]);
-				}
+				int i = 8;
+//				for(int i = 0; i < flickrData.length;i++){
+					if(flickrData[i].contains(",")){
+						user.add(flickrData[1]);
+						count++;
+						System.out.println(count + "---------" + user.size() + "---- " + ((float)user.size()/count));
+						System.out.println(infoArray[i] + "---" +flickrData[1] + "--"+ flickrData[i]);
+					}
+//				}
 
 			}
 		}catch(Exception e){
