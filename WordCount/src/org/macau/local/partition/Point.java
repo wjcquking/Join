@@ -2,11 +2,11 @@ package org.macau.local.partition;
 
 public class Point {
 
-	private long x;
-	private long y;
+	private int x;
+	private int y;
 	
 	private int[] boundPoint = new int[MinMaxComputationPartition.k];
-	private long[] partitionValue = new long[MinMaxComputationPartition.k];
+	private int[] partitionValue = new int[MinMaxComputationPartition.k];
 	
 	public Point(){
 		x = 0;
@@ -24,17 +24,17 @@ public class Point {
 	}
 
 
-	public long[] getPartitionValue() {
+	public int[] getPartitionValue() {
 		return partitionValue;
 	}
 
 
-	public void setPartitionValue(long[] partitionValue) {
+	public void setPartitionValue(int[] partitionValue) {
 		this.partitionValue = partitionValue;
 	}
 
 
-	public Point(long x, long y){
+	public Point(int x, int y){
 		this.x = x;
 		this.y = y;
 	}
@@ -58,16 +58,16 @@ public class Point {
 		
 	}
 	
-	public long getX() {
+	public int getX() {
 		return x;
 	}
-	public void setX(long x) {
+	public void setX(int x) {
 		this.x = x;
 	}
-	public long getY() {
+	public int getY() {
 		return y;
 	}
-	public void setY(long y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 	
