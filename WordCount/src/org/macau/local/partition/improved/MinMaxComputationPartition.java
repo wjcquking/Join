@@ -44,9 +44,14 @@ public class MinMaxComputationPartition {
 	
 	public static final File pFile = new File("D:\\360Downloads\\count\\count_14\\partition\\part-r-00000");
 	
+	//The computation of RS result which store in the rsFile
 	public static final int RS_COUNT_COMPUTATION = 597; 
 	
+	
+	//the maximum range value in the R and S
 	public static final int rangeCount = 2300;
+	
+	
 	//The Size of the sequence
 	public static final int arrayCount = RS_COUNT_COMPUTATION;
 	public static int N = arrayCount;
@@ -117,19 +122,13 @@ public class MinMaxComputationPartition {
             reader = new BufferedReader(new FileReader(myFile));
             String tempString = null;
             
-            String[] stringArray = new String[arrayCount];
-            
-            int line = 0; 
-            int sum = 0;
             
             while ((tempString = reader.readLine()) != null) {
+            	
             	String[] values = tempString.split("\\s+");
             	
             	long count = Integer.parseInt(values[countPosition]);
             	myCountArray[Integer.parseInt(values[idPosition])] = count;
-            	
-            	line++;
-            	sum += count;
             	
             }
          
@@ -185,7 +184,6 @@ public class MinMaxComputationPartition {
             }
             FileWriter writer = new FileWriter(rsFile);
             
-           
             
             for(int i = 0;i < rangeCount;i++){
             	long result = 0;
@@ -198,8 +196,9 @@ public class MinMaxComputationPartition {
             	}
             	
             	if(result != 0){
-            		System.out.println(i + " " + result);
+            		
             		writer.append(i + " " + result + "\n");
+            		
             	}
             }
             
@@ -238,8 +237,6 @@ public class MinMaxComputationPartition {
             	spaceSumArray[line] = spaceSum;
             	
             	line++;
-            	
-            	
             	
             }
             
@@ -342,14 +339,7 @@ public class MinMaxComputationPartition {
 				
 				int nextId = (i!= k-1) ?idArray[p.getBoundPoint()[i+1]] :idArray[idArray.length-1];
 				long dataValue = rSumArray[nextId] - rSumArray[id] + sSumArray[nextId+1] -sSumArray[id-1];
-//				if(i != k-1){
-//					int nextId = idArray[p.getBoundPoint()[i+1]];
-//					dataValue = rSumArray[nextId] - rSumArray[id] + sSumArray[nextId+1] -sSumArray[id-1];
-//				}else{
-//					int lastId = idArray[idArray.length-1];
-//					dataValue = rSumArray[lastId] - rSumArray[id] + sSumArray[lastId+1] - sSumArray[id-1];
-//					
-//				}
+
 				result += "{" + idArray[p.getBoundPoint()[i]]+ "," + 2114 +"," + 112+ "},";
 				System.out.println(p.getBoundPoint()[i] + " " + idArray[p.getBoundPoint()[i]]+"  " + p.getPartitionValue()[i] + " " + copyValue + "  " + dataValue);
 				sum += p.getPartitionValue()[i];
@@ -399,10 +389,6 @@ public class MinMaxComputationPartition {
 	public static int tempCount= 0;
 	public static List<Point> minMaxPartitionNK2WithReplicationWithImprovedSkyLineWithLimitation(int startPoint, int partitionNumber){
 		
-//		if(startPoint == 4 && partitionNumber == 3){
-//			System.out.println("fuck");
-//		}
-		
 		
 		long result = -1;
 		
@@ -413,28 +399,14 @@ public class MinMaxComputationPartition {
 		 * 
 		 ****************************************/
 		if(partitionNumber == 1){
-			if(tempCount <1500){
-				System.out.println(startPoint + "   "+ partitionNumber);
-				tempCount++;
-			}
 			
 			if(!resultTagArray[startPoint][partitionNumber]){
 				
 				result = 0;
-//				int dataSize = 0;
-//				dataSize += sCountArray[idArray[startPoint-1]];
 				
 				for(int j = startPoint;j <= N-1;j++){
 					result+= countArray[j];
-//					dataSize += sCountArray[idArray[j]];
-//					dataSize += rCountArray[idArray[j]];
 				}
-				
-				
-//				
-//				if(dataSize > spaceLimitation){
-//					
-//				}
 				
 				
 				resultArray[startPoint][partitionNumber]= result;
@@ -487,20 +459,15 @@ public class MinMaxComputationPartition {
 				if(partitionNumber-1 == 1){
 					tempDataSize = spaceSumArray[N-1] - spaceSumArray[i] + sCountArray[idArray[i]];
 					if(tempDataSize > spaceLimitation){
-//						System.out.println(tempDataSize  + " limitation " + spaceLimitation);
 						continue;
 					}
 				}
 				
-				if(tempCount <1500){
-//					System.out.println(startPoint + " fuck "+i + "   "+ partitionNumber + "  " + dataSize);
-//					tempCount++;
-				}
-				
 				
 				if(dataSize > spaceLimitation){
-//					System.out.println("hello " + dataSize);
+					
 					break;
+					
 				}
 				
 				
@@ -526,21 +493,15 @@ public class MinMaxComputationPartition {
 							tempPoint.setX(point.getX());
 							tempPoint.setY(max(point.getY(),first));
 							
-//							Point tempPoint = new Point(point.getX(),max(point.getY(),first));
 							tempPoint.getBoundPoint()[0] = 0;
 							tempPoint.getPartitionValue()[0] = first;
 							
 							dominatedPointInList(tempPoint, listResultArray[startPoint][partitionNumber]);
 							
-//							if(startPoint == 0 && partitionNumber == 30 && tempPoint.getY() == 64072106){
-//								System.out.println("0 30  " + tempPoint.getX() + "  " + tempPoint.getY());
-//							}
-							
 						}else{
 							tempPoint.setX(point.getX() + sCountArray[idArray[startPoint-1]] + sCountArray[idArray[startPoint]]);;
 							tempPoint.setY(max(point.getY(),first));
 							
-//							Point tempPoint = new Point(point.getX() + sCountArray[idArray[startPoint-1]] + sCountArray[idArray[startPoint]],temp);
 							tempPoint.getBoundPoint()[k-partitionNumber] = startPoint;
 							tempPoint.getPartitionValue()[k-partitionNumber] = first;
 							
@@ -563,22 +524,17 @@ public class MinMaxComputationPartition {
 							tempPoint.setX(point.getX());
 							tempPoint.setY(max(point.getY(),first));
 							
-//							Point tempPoint = new Point(point.getX(),max(point.getY(),first));
 							tempPoint.getBoundPoint()[0] = 0;
 							tempPoint.getPartitionValue()[0] = first;
 							
 							dominatedPointInList(tempPoint, listResultArray[startPoint][partitionNumber]);
 							
-//							if(startPoint == 0 && partitionNumber == 30 && tempPoint.getY() == 64072106){
-//								System.out.println("0 30  " + tempPoint.getX() + "  " + tempPoint.getY());
-//							}
 							
 						}else{
 							
 							tempPoint.setX(point.getX() + sCountArray[idArray[startPoint-1]] + sCountArray[idArray[startPoint]]);
 							tempPoint.setY(max(point.getY(),first));
 							
-//							Point tempPoint = new Point(point.getX() + sCountArray[idArray[startPoint-1]] + sCountArray[idArray[startPoint]],temp);
 							tempPoint.getBoundPoint()[k-partitionNumber] = startPoint;
 							tempPoint.getPartitionValue()[k-partitionNumber] = first;
 							
@@ -723,31 +679,27 @@ public class MinMaxComputationPartition {
 		boolean add = false;
 		boolean addelse = false;
 		
-		boolean dominate = false;
+//		boolean dominate = false;
 		boolean dominated = false;
-		boolean noDominate = false;
+//		boolean noDominate = false;
 		
 		for(int i = 0; i < list.size();i++){
-//			System.out.println(i +" " +list.size());
 			if(point.getX() <= list.get(i).getX() && point.getY() <= list.get(i).getY()){
 				list.remove(i);
 				i--;
-//				System.out.println(i + " 1 " + point.getX());
 				if(add == false){
 					add = true;
-//					list.add(i,point);
 				}else{
-//					i--;
 				}
 			}else if(point.getX() >= list.get(i).getX() && point.getY() >= list.get(i).getY()){
 				exit = true;
-//				System.out.println(i + " 2 " + point.getX());
 				dominated = true;
 				
 			}else{
 				if(addelse == false){
+					
 					addelse = true;
-//					list.add(point);
+					
 				}else{
 					
 				}
@@ -761,7 +713,6 @@ public class MinMaxComputationPartition {
 			list.add(point);
 		}
 		
-//		System.out.println(list.size());
 		if(list.size() == 0){
 			list.add(point);
 		}
@@ -773,13 +724,22 @@ public class MinMaxComputationPartition {
 		return result;
 	}
 	
+	
+	/***********************************************
+	 * 
+	 *  Write the output of console to the file
+	 *  
+	 ***********************************************/
 	public static void writeConsoleToFile(){
 		
 		try {
+			
 			System.setOut(new PrintStream(new FileOutputStream("D:\\output.txt")));
+			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
+			
 		}
 		
 	}
@@ -788,11 +748,8 @@ public class MinMaxComputationPartition {
 //		writeConsoleToFile();
 		System.out.println("find the minimum maximum value");
 
-//		GreedyPartition();
-//		LocalOptimalPartition();
 		optimalPartition();
 		 System.out.println("The Result " + getMinMaxPoint(minMaxPartitionNK2WithReplicationWithImprovedSkyLineWithLimitation(0,k)));
-//		printlnPartitionPoint();
 
 		
 	}

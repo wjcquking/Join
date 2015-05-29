@@ -777,6 +777,11 @@ public class MinMaxPartition {
 	}
 	
 	
+	public void simpleExample(){
+//      countArray = new int[]{1,2,3,4,5,6,7,1,2,3,4,5,6,7};
+//      countArray = new int[]{6,5,4,3,2,1};
+	}
+	
 	/**************************************************************
 	 * 
 	 * Dynamic problem programming
@@ -813,7 +818,6 @@ public class MinMaxPartition {
             String[] stringArray = new String[arrayCount];
             
             int line = 0; 
-            int sum = 0;
             
             while ((tempString = reader.readLine()) != null) {
             	String[] values = tempString.split("\\s+");
@@ -824,21 +828,10 @@ public class MinMaxPartition {
             	idArray[line] = Integer.parseInt(values[idPosition]);
             	
             	line++;
-            	sum += count;
             	
             }
-//            countArray = new int[]{1,2,3,4,5,6,7,1,2,3,4,5,6,7};
-//            countArray = new int[]{6,5,4,3,2,1};
-            
-            
-            
-//            newPartition(0,N-1,k,1);
 
-//            System.out.println("The Result " + minMaxPartition(0,N-1,k));
-            
-//            System.out.println("The Result " + minMaxPartitionNK2WithReplication(0,k));
             System.out.println("The Result " + getMinMaxValue(minMaxPartitionNK2WithReplicationWithSkyLine(0,k)));
-//            System.out.println("The Result " + minMaxPartitionNK2(0,k));
             
          
             reader.close();
@@ -1305,7 +1298,6 @@ public class MinMaxPartition {
 					int rest = getMinMaxValue(pointList);
 					first += countArray[i];			
 					
-//					System.out.println("first " + first + " rest " + rest);
 					int temp = max(first,rest);
 					if(result == -1){
 						result = max(first,rest);
@@ -1322,24 +1314,21 @@ public class MinMaxPartition {
 					
 					for(Point point : pointList){
 						
-//						System.out.println(point.getX()+"  "+startPoint + " " + partitionNumber);
-//						tempList.add(new Point(point.getX() + countArray[startPoint-1],result));
 						
 						if(startPoint == 0){
-//							System.out.println(startPoint + " " + partitionNumber + " Point x1 " + point.getX() + " y " + max(point.getY(),first) + " size " + pointList.size());
+							
 							dominatedPointInList(new Point(point.getX(),max(point.getY(),first)), listResultArray[startPoint][partitionNumber]);
-//							listResultArray[startPoint][partitionNumber].add(new Point(point.getX(),point.getY()));
+							
 						}else{
-//							System.out.println(startPoint + " " + partitionNumber + " Point x2 " + (point.getX() + countArray[startPoint-1]) + " y " + temp);
+							
 							dominatedPointInList(new Point(point.getX() + countArray[startPoint-1],temp), listResultArray[startPoint][partitionNumber]);
-//							listResultArray[startPoint][partitionNumber].add(new Point(point.getX() + countArray[startPoint-1],result));
+							
 						}
 					}
 					
 				}else{
 					
 					List<Point> pointList = listResultArray[i+1][partitionNumber-1];
-//					System.out.println((i+1) + " temp " + (partitionNumber-1));
 					int tempResult = getMinMaxValue(pointList);
 					first += countArray[i];	
 					
@@ -1349,7 +1338,6 @@ public class MinMaxPartition {
 						result = max(first,tempResult);
 					}
 					
-					//There should be i+1 not startPoint
 					if(partitionID == -1){
 						partitionID = i+1;
 					}
@@ -1360,28 +1348,24 @@ public class MinMaxPartition {
 					result = min(result,temp);
 					
 					for(Point point : pointList){
-//						System.out.println(point.getX()+"  "+startPoint + " " + partitionNumber);
-//						tempList.add(new Point(point.getX() + countArray[startPoint-1],result));
 						
 						if(startPoint == 0){
-//							System.out.println(startPoint + " " + partitionNumber + " Point x3 " + point.getX() + " y " + max(point.getY(),first));
+							
 							dominatedPointInList(new Point(point.getX(),max(point.getY(),first)), listResultArray[startPoint][partitionNumber]);
-//							listResultArray[startPoint][partitionNumber].add(new Point(point.getX(),point.getY()));
+							
 						}else{
-//							System.out.println(startPoint + " " + partitionNumber + " Point x4 " + (point.getX() + countArray[startPoint-1]) + " y " + temp);
+							
 							dominatedPointInList(new Point(point.getX() + countArray[startPoint-1],temp), listResultArray[startPoint][partitionNumber]);
-//							listResultArray[startPoint][partitionNumber].add(new Point(point.getX() + countArray[startPoint-1],result));
+							
 						}
 					}
 				}
 			}
-//			System.out.println(startPoint + "  " + partitionNumber);
 			resultArray[startPoint][partitionNumber] = result;
 			
 			
 			resultTagArray[startPoint][partitionNumber] = true;
 			boundPointArray[startPoint][partitionNumber] = partitionID;
-//			System.out.println(startPoint + " "+ partitionNumber + "  "+ partitionID + "    Result2 " + result);
 			
 			if(startPoint == 0 && partitionNumber == k){
 				printResult();
@@ -1470,7 +1454,7 @@ public class MinMaxPartition {
 	 *****************************************************************************/
 	public static void printlnPartitionPoint(){
 		int i = 0;
-		String result = "";
+		String result = "{" + idArray[0]+ "," + 2114 +"," + 112+ "},";
 		for(int id : boundIdArray){
 			System.out.println(i++ + " " +id);
 			result += "{" + id+ "," + 2114 +"," + 112+ "},";
@@ -1505,9 +1489,9 @@ public class MinMaxPartition {
 		boolean add = false;
 		boolean addelse = false;
 		
-		boolean dominate = false;
+//		boolean dominate = false;
 		boolean dominated = false;
-		boolean noDominate = false;
+//		boolean noDominate = false;
 		
 		for(int i = 0; i < list.size();i++){
 //			System.out.println(i +" " +list.size());
@@ -1549,6 +1533,22 @@ public class MinMaxPartition {
 		return result;
 	}
 	
+	
+	public void dominatedTest(){
+		
+//		listResultArray[0][0] = new ArrayList<Point>();
+//		listResultArray[0][0].add(new Point(3,14));
+//		listResultArray[0][0].add(new Point(4,12));
+//		listResultArray[0][0].add(new Point(5,10));
+//		listResultArray[0][0].add(new Point(4,9));
+		
+//		System.out.println();
+//		dominatedPointInList(new Point(4,7), listResultArray[0][3]);
+//		for(Point p: listResultArray[0][3]){
+//			System.out.println(p.getX() + "  " + p.getY());
+//		}
+		
+	}
 	public static void main(String[] args){
 		
 		System.out.println("find the minimum maximum value");
@@ -1557,24 +1557,12 @@ public class MinMaxPartition {
 		optimalPartition();
 		printlnPartitionPoint();
 		
-
-//		
-
 		
-//		listResultArray[0][0] = new ArrayList<Point>();
-//		listResultArray[0][0].add(new Point(3,14));
-//		listResultArray[0][0].add(new Point(4,12));
-//		listResultArray[0][0].add(new Point(5,10));
-//		listResultArray[0][0].add(new Point(4,9));
-		
+		System.out.println("The Skyline");
 		for(Point p: listResultArray[0][k]){
 			System.out.println(p.getX() + "  " + p.getY());
 		}
-//		System.out.println();
-//		dominatedPointInList(new Point(4,7), listResultArray[0][3]);
-//		for(Point p: listResultArray[0][3]){
-//			System.out.println(p.getX() + "  " + p.getY());
-//		}
+
 		
 
 
