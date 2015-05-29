@@ -151,6 +151,7 @@ public class MinMaxComputationPartition {
         }
 	}
 	
+	
 	/**************************************************************
 	 * 
 	 * Dynamic problem programming
@@ -1508,14 +1509,19 @@ public class MinMaxComputationPartition {
 		return result;
 	}
 	
+	public static void writeConsoleToFile(){
+		
+		try {
+			System.setOut(new PrintStream(new FileOutputStream("D:\\output.txt")));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	public static void main(String[] args){
 		
-//		try {
-////			System.setOut(new PrintStream(new FileOutputStream("D:\\output.txt")));
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+//		writeConsoleToFile();
 		System.out.println("find the minimum maximum value");
 
 //		GreedyPartition();
