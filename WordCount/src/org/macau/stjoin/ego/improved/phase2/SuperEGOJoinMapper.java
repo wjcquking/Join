@@ -8,11 +8,11 @@ package org.macau.stjoin.ego.improved.phase2;
  *      output: KEY  :
  *      		Value:
  *      
- *      It use the 
- * 		It use some threshold to get the proper value 
- * 		so I need some statistics
+ * Description: only the intersection group are sent to the same reducer
  * 
  * Date: 2014-12-29
+ * Modify User: wj
+ * Modify Date: 2015-06-01
  ****************************************************/
 import java.io.IOException;
 
@@ -32,7 +32,7 @@ public class SuperEGOJoinMapper extends
 	
 	protected void setup(Context context) throws IOException, InterruptedException {
 
-		System.out.println("SuperEGO mapper Start at " + System.currentTimeMillis());
+		System.out.println("The mapper Start at " + System.currentTimeMillis());
 	}
 	
 	
@@ -87,11 +87,7 @@ public class SuperEGOJoinMapper extends
 					outputValue.setTileNumber((int)timeInterval);
 					context.write(outputKey, outputValue);
 				}
-//				for(int i = 0; i < 10;i++){
-//					outputKey.set(group + " " + i);
-//					outputValue.setTileNumber((int)timeInterval);
-//					context.write(outputKey, outputValue);
-//				}
+				
 			}else if(tag == FlickrSimilarityUtil.R_tag){
 				for(String str : rPartition.split(":")[group].split(",")){
 					int i = Integer.parseInt(str)-1;
@@ -100,17 +96,11 @@ public class SuperEGOJoinMapper extends
 					context.write(outputKey, outputValue);
 				}
 				
-//				for(int i = group-1; i <= group;i++){
-//					outputKey.set(i + " " + group) ;
-//					outputValue.setTileNumber((int)timeInterval);
-//					context.write(outputKey, outputValue);
-//				}
-				
 			}
 		}
 		
 	}
 	protected void cleanup(Context context) throws IOException, InterruptedException {
-		System.out.println("The SuperEGO mapper end at " + System.currentTimeMillis() + "\n" );
+		System.out.println("The mapper end at " + System.currentTimeMillis() + "\n" );
 	}
 }

@@ -46,7 +46,7 @@ public class SuperEGOJoinReducer extends
 
 		protected void setup(Context context) throws IOException, InterruptedException {
 
-			System.out.println("Temporal reducer Start at " + System.currentTimeMillis());
+			System.out.println("The reducer Start at " + System.currentTimeMillis());
 		}
 		
 		public void reduce(Text key, Iterable<FlickrValue> values,
@@ -127,7 +127,6 @@ public class SuperEGOJoinReducer extends
 					lst_R = obj;
 				}
 				
-//				System.out.println("R:" + obj + " " + rMap.get(obj).size());
 				Collections.sort(rMap.get(obj),comp);
 				rSetSize += rMap.get(obj).size();
 				
@@ -147,12 +146,10 @@ public class SuperEGOJoinReducer extends
 					lst_S = obj;
 				}
 				
-//				System.out.println("S:" + obj + "  " + sMap.get(obj).size());
 				Collections.sort(sMap.get(obj),comp);
 				sSetSize += sMap.get(obj).size();
 				
 			}
-//			System.out.println(rSetSize);
 			wholeSize = sSetSize + rSetSize;
 			rCount.add(rSetSize);
 			sCount.add(sSetSize);
@@ -161,7 +158,6 @@ public class SuperEGOJoinReducer extends
 
 			if(fst_S > lst_R + 1){
 				
-//				System.out.println("ggggg");
 			}else if(fst_R > lst_S + 1){
 				
 			}else{
@@ -214,7 +210,6 @@ public class SuperEGOJoinReducer extends
 				}
 				
 				if(sMap.containsKey(i+1)){
-//					System.out.println("SSSSSS"+ (i+1));
 					
 					for(int j = 0;j < rMap.get(i).size();j++){
 						

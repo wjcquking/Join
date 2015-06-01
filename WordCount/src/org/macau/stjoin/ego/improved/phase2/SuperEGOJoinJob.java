@@ -32,7 +32,7 @@ import org.macau.flickr.util.FlickrValue;
  ****************************************************/
 public class SuperEGOJoinJob {
 
-	public static boolean TemporalSimilarityBasicJoin(Configuration conf,int reducerNumber) throws Exception{
+	public static boolean SuperEGOJoin(Configuration conf,int reducerNumber) throws Exception{
 		
 		Job basicJob = new Job(conf,"Super EGO Join Job");
 		basicJob.setJarByClass(SuperEGOJoinJob.class);
