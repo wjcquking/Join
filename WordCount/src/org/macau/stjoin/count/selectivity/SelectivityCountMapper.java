@@ -21,7 +21,9 @@ import org.macau.stjoin.util.DataSimilarityUtil;
 public class SelectivityCountMapper extends
 	Mapper<Object, Text, LongWritable, IntWritable>{
 	
+	private final LongWritable outputKey = new LongWritable();
 	private final FlickrValue outputValue = new FlickrValue();
+
 	protected void setup(Context context) throws IOException, InterruptedException {
 
 		System.out.println("Temporal Count Mapper Start at " + System.currentTimeMillis());
@@ -48,10 +50,27 @@ public class SelectivityCountMapper extends
 		outputValue.setTag(tag);
 		
 		
-		if(tag == FlickrSimilarityUtil.R_tag){
-			context.write(new LongWritable(timeInterval), new IntWritable(1));
-		}else{
-			
+//		if(tag == FlickrSimilarityUtil.R_tag){
+//			context.write(new LongWritable(timeInterval), new IntWritable(1));
+//		}else{
+//			
+//		}
+		
+		
+		if(!outputValue.getTiles().equals("null")){
+			if(tag == FlickrSimilarityUtil.S_tag){
+				
+				for(int i = -1; i<=1;i++){
+					outputKey.set(timeInterval+ i);
+					context.write(outputKey, new IntWritable(tag));
+				}
+				
+			}else{
+				
+				//for the R set
+				outputKey.set(timeInterval);
+				context.write(outputKey, new IntWritable(tag));
+			}
 		}
 
 		

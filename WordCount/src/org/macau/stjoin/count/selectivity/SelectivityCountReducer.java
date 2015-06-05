@@ -4,14 +4,15 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
-
 import org.apache.hadoop.mapreduce.Reducer;
+import org.macau.flickr.util.FlickrSimilarityUtil;
 
 
 public class SelectivityCountReducer extends
-	Reducer<LongWritable, IntWritable, LongWritable, IntWritable>{
+	Reducer<LongWritable, IntWritable, LongWritable, LongWritable>{
 		
-
+		private final LongWritable outputValue = new LongWritable(0);
+	
 		protected void setup(Context context) throws IOException, InterruptedException {
 
 			System.out.println("Temporal Count reducer Start at " + System.currentTimeMillis());
@@ -20,12 +21,18 @@ public class SelectivityCountReducer extends
 		public void reduce(LongWritable key, Iterable<IntWritable> values,
 				Context context) throws IOException, InterruptedException{
 			
+			long sCount = 0;
+			long rCount = 0;
 			int sum = 0;
 			for(IntWritable value:values){
-				sum += value.get();
+				if(value.get() == FlickrSimilarityUtil.S_tag){
+					sCount++;
+				}else{
+					rCount++;
+				}
 			}
-			
-			context.write(key, new IntWritable(sum));
+			outputValue.set(outputValue.get() + rCount*sCount);
+			context.write(key, outputValue);
 
 		}
 		

@@ -13,19 +13,30 @@ import org.macau.flickr.util.FlickrSimilarityUtil;
 /**
  * 
  * @author hadoop
- * Word Count
- * Calculate the count number for each timeinterval
+ * Selectivity Count
+ * 
+ * This file is for the selectivity of the data
+ * 
+ * Mapper output
+ * Key: the candidate tags
+ * Value: the file tag: R or S
+ * 
+ * Reducer Output
+ * Key: the canidate tags
+ * Value: the sum of the Project of the R and S in this tags
+ * 
  * Modify Date: 2015-01-17
+ * 
  */
 public class SelectivityCountJob {
 
-	public static boolean TemporalCount(Configuration conf,int reducerNumber) throws Exception{
+	public static boolean SelectivityCount(Configuration conf,int reducerNumber) throws Exception{
 		
-		Job basicJob = new Job(conf,"Temporal Count Job");
+		Job basicJob = new Job(conf,"Selectivity Count Job");
 		basicJob.setJarByClass(SelectivityCountJob.class);
 		
 		basicJob.setMapperClass(SelectivityCountMapper.class);
-		basicJob.setCombinerClass(SelectivityCountReducer.class);
+//		basicJob.setCombinerClass(SelectivityCountReducer.class);
 		
 		basicJob.setReducerClass(SelectivityCountReducer.class);
 		
