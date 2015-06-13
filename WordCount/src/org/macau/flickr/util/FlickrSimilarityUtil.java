@@ -1,5 +1,8 @@
 package org.macau.flickr.util;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,21 +14,23 @@ public class FlickrSimilarityUtil {
 
 	//time threshold
 	// the "L" is very important
-//<<<<<<< HEAD
 //	public static final long TEMPORAL_THRESHOLD = 700L*86400000L;
-//=======
-	public static final long TEMPORAL_THRESHOLD = 14L*86400000L;
-//>>>>>>> branch 'master' of https://github.com/wjcquking/fuzzyJoin.git
-//	
+	public static final long TEMPORAL_THRESHOLD = 0L*86400000L + 0L*8640000L + 3L*864000L + 2L*86400L;
+//	public static final long TEMPORAL_THRESHOLD = 1L*2592000L;
+		
 	//spatial threshold, Unit : km
-//<<<<<<< HEAD
 //	public static final double DISTANCE_THRESHOLD = 0.0001;
-//=======
-	public static final double DISTANCE_THRESHOLD = 0.0004;
+	public static final double DISTANCE_THRESHOLD = 0.00004;
 	 
-//>>>>>>> branch 'master' of https://github.com/wjcquking/fuzzyJoin.git
 	//textual threshold
-	public static final double TEXTUAL_THRESHOLD = 0.6;
+	public static final double TEXTUAL_THRESHOLD = 0.2;
+	
+	
+	//the other threshold
+	public static final long UPLOAD_THRESHOLD = 1L*86400L;
+	public static final long SERVER_THRESHOLD = 10;
+	public static final double DEVICE_THRESHOLD = 0.5;
+	public static final double DESCRIPTION_THRESHOLD = 0.5;
 	
 	
 	public static final double SAMPLE_PROBABILITY = 0.004;
@@ -39,7 +44,7 @@ public class FlickrSimilarityUtil {
 	
 	public static final int TOTAL_TILE_NUMBER = TILE_NUMBER_EACH_LINE * TILE_NUMBER_EACH_LINE;
 	
-	public static final int PARTITION_NUMBER = 60;
+	public static final int PARTITION_NUMBER = 30;
 	
 	/* For the data of Paris flickr image picture
 	 * If We know the data,we can split the whole universe
@@ -89,6 +94,14 @@ public class FlickrSimilarityUtil {
 	}
 	
 	
+	public static boolean SingleValueSimilarity(long value1,long value2, double threshold){
+		return Math.abs(value1 - value2) < threshold;
+	}
+	
+	public static boolean MultiValueSimilarity(String value1, String value2,String separate,double threshold){
+		return getTokenSimilarity(value1, value2, separate) > threshold;
+	}
+	
 	public static int getTagByFileName(String fileName){
 		
 		if(fileName.contains(R_TAG)){
@@ -108,6 +121,22 @@ public class FlickrSimilarityUtil {
 		
 	}
 	
+	public static double getTokenSimilarity(String iToken,String jToken,String separate){
+		
+//		List<String> itext = new ArrayList<String>(Arrays.asList(iToken.split(";")));
+//		List<String> jtext = new ArrayList<String>(Arrays.asList(jToken.split(";")));
+		List<String> itext = new ArrayList<String>(Arrays.asList(iToken.split(separate)));
+		List<String> jtext = new ArrayList<String>(Arrays.asList(jToken.split(separate)));
+		
+		int i_num = itext.size();
+		int j_num = jtext.size();
+		jtext.retainAll(itext);
+		int numOfIntersection = jtext.size();
+		
+		return (double)numOfIntersection/(double)(i_num+j_num-numOfIntersection);
+	}
+	
+	
 	/**
 	 * 
 	 * @param iToken
@@ -117,8 +146,10 @@ public class FlickrSimilarityUtil {
 	 */
 	public static double getTokenSimilarity(String iToken,String jToken){
 		
-		List<String> itext = new ArrayList<String>(Arrays.asList(iToken.split(";")));
-		List<String> jtext = new ArrayList<String>(Arrays.asList(jToken.split(";")));
+//		List<String> itext = new ArrayList<String>(Arrays.asList(iToken.split(";")));
+//		List<String> jtext = new ArrayList<String>(Arrays.asList(jToken.split(";")));
+		List<String> itext = new ArrayList<String>(Arrays.asList(iToken.split(",")));
+		List<String> jtext = new ArrayList<String>(Arrays.asList(jToken.split(",")));
 		
 		int i_num = itext.size();
 		int j_num = jtext.size();
@@ -220,5 +251,25 @@ public class FlickrSimilarityUtil {
 		outputValue.setTimestamp(timestamp);
 		
 		return outputValue;
+	}
+	
+	
+	/***********************************************
+	 * 
+	 *  Write the output of console to the file
+	 *  
+	 ***********************************************/
+	public static void writeConsoleToFile(){
+		
+		try {
+			
+			System.setOut(new PrintStream(new FileOutputStream("D:\\output.txt")));
+			
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+			
+		}
+		
 	}
 }
