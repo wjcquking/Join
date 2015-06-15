@@ -8,20 +8,20 @@ import java.util.Map;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-
 import org.apache.hadoop.mapreduce.Reducer;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.FlickrValue;
+import org.macau.flickr.util.FlickrValueWithKey;
 
 
 public class EGOSpatialJoinReducer extends
-	Reducer<LongWritable, FlickrValue, Text, Text>{
+	Reducer<LongWritable, FlickrValueWithKey, Text, Text>{
 		
 		
 		private final Text text = new Text();
 		
-		private final Map<Integer,ArrayList<FlickrValue>> rMap = new HashMap<Integer,ArrayList<FlickrValue>>();
-		private final Map<Integer,ArrayList<FlickrValue>> sMap = new HashMap<Integer,ArrayList<FlickrValue>>();
+		private final Map<Long,ArrayList<FlickrValueWithKey>> rMap = new HashMap<Long,ArrayList<FlickrValueWithKey>>();
+		private final Map<Long,ArrayList<FlickrValueWithKey>> sMap = new HashMap<Long,ArrayList<FlickrValueWithKey>>();
 		
 		private final List<Long> rCount = new ArrayList<Long>();
 		private final List<Long> sCount = new ArrayList<Long>();
@@ -37,42 +37,43 @@ public class EGOSpatialJoinReducer extends
 			System.out.println("Temporal reducer Start at " + System.currentTimeMillis());
 		}
 		
-		public void reduce(LongWritable key, Iterable<FlickrValue> values,
+		public void reduce(LongWritable key, Iterable<FlickrValueWithKey> values,
 				Context context) throws IOException, InterruptedException{
 			
 			
-			for(FlickrValue value:values){
+			for(FlickrValueWithKey value:values){
 				
-				FlickrValue fv = new FlickrValue(value);
+				FlickrValueWithKey fv = new FlickrValueWithKey(value);
 				
 			    if(fv.getTag() == FlickrSimilarityUtil.R_tag){
 			    	
-			    	if(rMap.containsKey(value.getTileNumber())){
+			    	if(rMap.containsKey(value.getKey())){
 				    	
-				    	rMap.get(value.getTileNumber()).add(new FlickrValue(fv));
+				    	rMap.get(value.getKey()).add(new FlickrValueWithKey(fv));
 				    	
 				    }else{
 				    	
-				    	ArrayList<FlickrValue> list = new ArrayList<FlickrValue>();
+				    	ArrayList<FlickrValueWithKey> list = new ArrayList<FlickrValueWithKey>();
 				    	
 				    	list.add(fv);
 				    	
-				    	rMap.put(value.getTileNumber(), list);
+				    	rMap.put(value.getKey(), list);
 				    	
 				    }
 			    }else{
 			    	
-			    	if(sMap.containsKey(value.getTileNumber())){
+			    	
+			    	if(sMap.containsKey(value.getKey())){
 				    	
-				    	sMap.get(value.getTileNumber()).add(new FlickrValue(fv));
+				    	sMap.get(value.getKey()).add(new FlickrValueWithKey(fv));
 				    	
 				    }else{
 				    	
-				    	ArrayList<FlickrValue> list = new ArrayList<FlickrValue>();
+				    	ArrayList<FlickrValueWithKey> list = new ArrayList<FlickrValueWithKey>();
 				    	
 				    	list.add(fv);
 				    	
-				    	sMap.put(value.getTileNumber(), list);
+				    	sMap.put(value.getKey(), list);
 				    }
 			    }
 			    
@@ -95,23 +96,15 @@ public class EGOSpatialJoinReducer extends
 			long sSetSize = 0;
 			long  wholeSize = 0;
 			// Sort the List in the Map
-			for(java.util.Iterator<Integer> i = rMap.keySet().iterator();i.hasNext();){
+			for(java.util.Iterator<Long> i = rMap.keySet().iterator();i.hasNext();){
 				
-				
-//				TemporalComparator comp = new TemporalComparator();
-				int obj = i.next();
-//				System.out.println("R:" + obj + " " + rMap.get(obj).size());
-//				Collections.sort(rMap.get(obj),comp);
+				long obj = i.next();
 				rSetSize += rMap.get(obj).size();
-				
 			}
 			
-			for(java.util.Iterator<Integer> i = sMap.keySet().iterator();i.hasNext();){
+			for(java.util.Iterator<Long> i = sMap.keySet().iterator();i.hasNext();){
 				
-//				TemporalComparator comp = new TemporalComparator();
-				int obj = i.next();
-//				System.out.println("S:" + obj + "  " + sMap.get(obj).size());
-//				Collections.sort(sMap.get(obj),comp);
+				long obj = i.next();
 				sSetSize += sMap.get(obj).size();
 				
 			}
@@ -122,158 +115,73 @@ public class EGOSpatialJoinReducer extends
 			wCount.add(wholeSize);
 			
 
+			double thres = Math.pow(FlickrSimilarityUtil.DISTANCE_THRESHOLD, 0.5);
 			
-			for(java.util.Iterator<Integer> obj = rMap.keySet().iterator();obj.hasNext();){
+			for(java.util.Iterator<Long> obj = rMap.keySet().iterator();obj.hasNext();){
 				
-				Integer i = obj.next();
+				Long i = obj.next();
 				
 				
-				if(sMap.containsKey(i)){
-					
-					
-					for(int j = 0;j < rMap.get(i).size();j++){
+				FlickrValue tempValue = rMap.get(i).get(0);
+				int x = (int) (tempValue.getLat()/thres);
+				int y = (int)(tempValue.getLon()/thres );
+				
+				System.out.println(i + ": " + FlickrSimilarityUtil.parseToZOrder(x, y));
+				
+				for(int m = x-1; m <= x+1;m++){
+					for(int n = y-1; n <= y+1;n++){
 						
-						FlickrValue value1 = rMap.get(i).get(j);
+						long zValue = FlickrSimilarityUtil.parseToZOrder(m, n);
+						System.out.println(zValue);
 						
-						//for the same tail, there is no need for comparing
-						
-						for(int k = 0; k < sMap.get(i).size();k++){
-							FlickrValue value2 = sMap.get(i).get(k);
-							tCompareCount++;
-							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-								if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
+						if(sMap.containsKey(zValue)){
+							
+							
+							for(int j = 0;j < rMap.get(i).size();j++){
+								
+								FlickrValueWithKey value1 = rMap.get(i).get(j);
+								
+								//for the same tail, there is no need for comparing
+								
+								for(int k = 0; k < sMap.get(zValue).size();k++){
+									FlickrValueWithKey value2 = sMap.get(zValue).get(k);
+									
+									for(int o = 0; o < FlickrSimilarityUtil.loop ;o++){
+										FlickrSimilarityUtil.TextualSimilarity(value1, value2);
+									}
+									
+									tCompareCount++;
 									if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
 										sCompareCount++;
 										if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
 											
 											oCompareCount++;
 											if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-												if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-													if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
 												
 												
-														long ridA = value1.getId();
-											            long ridB = value2.getId();
-											            if (ridA < ridB) {
-											                long rid = ridA;
-											                ridA = ridB;
-											                ridB = rid;
-											            }
-													
-										            
-										            
-											            text.set(ridA + "%" + ridB);
-											            context.write(text, new Text(""));
-													}
-												}
+												long ridA = value1.getId();
+									            long ridB = value2.getId();
+									            if (ridA < ridB) {
+									                long rid = ridA;
+									                ridA = ridB;
+									                ridB = rid;
+									            }
+											
+								            
+								            
+									            text.set(ridA + "%" + ridB);
+									            context.write(text, new Text(""));
 											}
 										}
 									}
 								}
+								
+								
 							}
 						}
-						
-						
 					}
 				}
 				
-				if(sMap.containsKey(i+1)){
-					
-					for(int j = 0;j < rMap.get(i).size();j++){
-						
-						FlickrValue value1 = rMap.get(i).get(j);
-						
-						//for the same tail, there is no need for comparing
-						
-						for(int k = 0; k < sMap.get(i+1).size();k++){
-							FlickrValue value2 = sMap.get(i+1).get(k);
-							tCompareCount++;
-							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-								if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-									if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-										sCompareCount++;
-										if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
-											
-											oCompareCount++;
-											if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-												if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-													if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-												
-												
-														long ridA = value1.getId();
-											            long ridB = value2.getId();
-											            if (ridA < ridB) {
-											                long rid = ridA;
-											                ridA = ridB;
-											                ridB = rid;
-											            }
-													
-										            
-										            
-											            text.set(ridA + "%" + ridB);
-											            context.write(text, new Text(""));
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-						
-						
-					}
-				}
-
-
-				if(sMap.containsKey(i-1)){
-					
-					
-					for(int j = 0;j < rMap.get(i).size();j++){
-						
-						FlickrValue value1 = rMap.get(i).get(j);
-						
-						//for the same tail, there is no need for comparing
-						
-						for(int k = 0; k < sMap.get(i-1).size();k++){
-							FlickrValue value2 = sMap.get(i-1).get(k);
-							tCompareCount++;
-							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-								if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-									if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
-										sCompareCount++;
-										if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
-											
-											oCompareCount++;
-											if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-												if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-													if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-												
-												
-														long ridA = value1.getId();
-											            long ridB = value2.getId();
-											            if (ridA < ridB) {
-											                long rid = ridA;
-											                ridA = ridB;
-											                ridB = rid;
-											            }
-													
-										            
-										            
-											            text.set(ridA + "%" + ridB);
-											            context.write(text, new Text(""));
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-						
-						
-					}
-				}
 			}
 
 			

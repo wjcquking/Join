@@ -6,9 +6,8 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-
 import org.macau.flickr.util.FlickrSimilarityUtil;
-import org.macau.flickr.util.FlickrValue;
+import org.macau.flickr.util.FlickrValueWithKey;
 
 
 /**
@@ -31,7 +30,7 @@ public class EGOSpatialJoinJob {
 		basicJob.setReducerClass(EGOSpatialJoinReducer.class);
 		
 		basicJob.setMapOutputKeyClass(LongWritable.class);
-		basicJob.setMapOutputValueClass(FlickrValue.class);
+		basicJob.setMapOutputValueClass(FlickrValueWithKey.class);
 		
 		basicJob.setNumReduceTasks(reducerNumber);
 		
