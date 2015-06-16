@@ -140,6 +140,11 @@ public class EGOOptimalJoinReducer extends
 						for(int k = 0; k < sMap.get(i).size();k++){
 							FlickrValue value2 = sMap.get(i).get(k);
 							tCompareCount++;
+							
+							for(int m = 0; m < FlickrSimilarityUtil.loop;m++){
+								FlickrSimilarityUtil.TextualSimilarity(value1, value2);
+							}
+							
 							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
 								sCompareCount++;
 								if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
@@ -180,6 +185,10 @@ public class EGOOptimalJoinReducer extends
 						for(int k = 0; k < sMap.get(i+1).size();k++){
 							FlickrValue value2 = sMap.get(i+1).get(k);
 							tCompareCount++;
+							for(int m = 0; m < FlickrSimilarityUtil.loop;m++){
+								FlickrSimilarityUtil.TextualSimilarity(value1, value2);
+							}
+							
 							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
 								sCompareCount++;
 								if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
@@ -187,7 +196,7 @@ public class EGOOptimalJoinReducer extends
 									oCompareCount++;
 									if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
 										
-										
+								
 										long ridA = value1.getId();
 							            long ridB = value2.getId();
 							            if (ridA < ridB) {
@@ -222,13 +231,16 @@ public class EGOOptimalJoinReducer extends
 						for(int k = 0; k < sMap.get(i-1).size();k++){
 							FlickrValue value2 = sMap.get(i-1).get(k);
 							tCompareCount++;
+							for(int m = 0; m < FlickrSimilarityUtil.loop;m++){
+								FlickrSimilarityUtil.TextualSimilarity(value1, value2);
+							}
+							
 							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
 								sCompareCount++;
 								if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
 									
 									oCompareCount++;
 									if(FlickrSimilarityUtil.TextualSimilarity(value1, value2)){
-										
 										
 										long ridA = value1.getId();
 							            long ridB = value2.getId();
