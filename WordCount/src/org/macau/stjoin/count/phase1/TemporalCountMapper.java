@@ -15,6 +15,7 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
+import org.macau.stjoin.util.DataSimilarityUtil;
 
 public class TemporalCountMapper extends
 	Mapper<Object, Text, LongWritable, IntWritable>{
@@ -41,10 +42,28 @@ public class TemporalCountMapper extends
 		
 		long timeInterval = timestamp / FlickrSimilarityUtil.TEMPORAL_THRESHOLD;
 		
+		String textual = value.toString().split(":")[5];
 		
-		if(tag == FlickrSimilarityUtil.R_tag){
+		
+//		if(!textual.equals("null")){
+//			
+//			String[] textualList = textual.split(";");
+//			
+////			for(int i = 0 ;i < textualList.length;i++){
+////				Long tokenID = Long.parseLong(textualList[i]);
+////				context.write(new LongWritable(tokenID), new IntWritable(1));
+////				
+////			}
+//			context.write(new LongWritable(textualList.length), new IntWritable(1));
+//		}else{
+////			context.write(new LongWritable(-1), new IntWritable(1));
+//		}
+		
+			
+		
+//		if(tag == FlickrSimilarityUtil.R_tag){
 			context.write(new LongWritable(timeInterval), new IntWritable(1));
-		}
+//		}
 
 		
 		
