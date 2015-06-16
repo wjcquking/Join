@@ -2,18 +2,15 @@ package org.macau.stjoin.ego.textual.preprocess.size;
 
 import java.io.IOException;
 
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.macau.flickr.util.FlickrSimilarityUtil;
 
 
 public class TextualCountReducer extends
 	Reducer<Text, LongWritable, Text, LongWritable>{
 		
 
-		private final LongWritable outputValue = new LongWritable(0);
 	
 		protected void setup(Context context) throws IOException, InterruptedException {
 
