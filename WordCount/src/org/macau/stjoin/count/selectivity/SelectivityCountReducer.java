@@ -31,8 +31,12 @@ public class SelectivityCountReducer extends
 					rCount++;
 				}
 			}
-			outputValue.set(outputValue.get() + rCount*sCount);
-			context.write(key, outputValue);
+//			outputValue.set(outputValue.get() + rCount*sCount);
+			outputValue.set(rCount*sCount);
+			
+			if(rCount*sCount > 0){
+				context.write(key, outputValue);
+			}
 
 		}
 		
