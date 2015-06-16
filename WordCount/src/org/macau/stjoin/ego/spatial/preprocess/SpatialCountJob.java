@@ -20,18 +20,18 @@ import org.macau.flickr.util.FlickrSimilarityUtil;
  */
 public class SpatialCountJob {
 
-	public static boolean TemporalCount(Configuration conf,int reducerNumber) throws Exception{
+	public static boolean SpatialCount(Configuration conf,int reducerNumber) throws Exception{
 		
 		Job basicJob = new Job(conf,"Temporal Count Job");
 		basicJob.setJarByClass(SpatialCountJob.class);
 		
 		basicJob.setMapperClass(SpatialCountMapper.class);
-		basicJob.setCombinerClass(SpatialCountReducer.class);
+//		basicJob.setCombinerClass(SpatialCountReducer.class);
 		
 		basicJob.setReducerClass(SpatialCountReducer.class);
 		
 		basicJob.setMapOutputKeyClass(Text.class);
-		basicJob.setMapOutputValueClass(IntWritable.class);
+		basicJob.setMapOutputValueClass(LongWritable.class);
 		
 		basicJob.setNumReduceTasks(reducerNumber);
 		

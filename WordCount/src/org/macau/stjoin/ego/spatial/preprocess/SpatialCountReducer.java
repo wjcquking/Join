@@ -6,27 +6,51 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.macau.flickr.util.FlickrSimilarityUtil;
 
 
 public class SpatialCountReducer extends
-	Reducer<Text, IntWritable, Text, IntWritable>{
+	Reducer<Text, LongWritable, Text, LongWritable>{
 		
 
+		private final LongWritable outputValue = new LongWritable(0);
+	
 		protected void setup(Context context) throws IOException, InterruptedException {
 
 			System.out.println("Temporal Count reducer Start at " + System.currentTimeMillis());
 		}
 		
-		public void reduce(Text key, Iterable<IntWritable> values,
+		public void reduce(Text key, Iterable<LongWritable> values,
 				Context context) throws IOException, InterruptedException{
 			
-			int sum = 0;
-			for(IntWritable value:values){
-				sum += value.get();
-			}
 			
-			context.write(key, new IntWritable(sum));
-
+//			long sum = 0;
+//			for(LongWritable value:values){
+//				sum += value.get();
+//			}
+//			
+//			if(sum > 10){
+//				context.write(key, new LongWritable(sum));
+//			}
+			
+			long sCount = 0;
+			long rCount = 0;
+			
+			
+			for(LongWritable value:values){
+				if(value.get() == FlickrSimilarityUtil.R_tag){
+					rCount++;
+				}else{
+					sCount++;
+				}
+			}
+			System.out.println(key + ":"+rCount + ":" + sCount);
+			
+			long temp = rCount*sCount;
+			
+			if(temp > 10){
+				context.write(key, new LongWritable(temp));
+			}
 		}
 		
 		/*

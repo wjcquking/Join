@@ -16,10 +16,9 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.macau.flickr.util.FlickrSimilarityUtil;
 import org.macau.flickr.util.spatial.ZOrderValue;
-import org.macau.stjoin.util.DataSimilarityUtil;
 
 public class SpatialCountMapper extends
-	Mapper<Object, Text, Text, IntWritable>{
+	Mapper<Object, Text, Text, LongWritable>{
 	
 	
 	protected void setup(Context context) throws IOException, InterruptedException {
@@ -38,9 +37,6 @@ public class SpatialCountMapper extends
 		
 		int tag = FlickrSimilarityUtil.getTagByFileName(fileName);
 		
-		long timestamp = Long.parseLong(value.toString().split(":")[4]);
-		
-		
 		
 		double lat = Double.parseDouble(value.toString().split(":")[2]);
 		double lon = Double.parseDouble(value.toString().split(":")[3]);
@@ -53,11 +49,39 @@ public class SpatialCountMapper extends
 		int y = (int)(lon/thres );
 		
 		
-		int zorder = ZOrderValue.parseToZOrder(x, y);
+//		long zorder = ZOrderValue.parseToZOrder(x, y);
+//		
+//		String outputValue = zorder + ":" + x + ":" + y;
+//		
+//		context.write(new Text(outputValue), new LongWritable(1));
 		
-		String outputValue = zorder + ":" + x + ":" + y;
 		
-		context.write(new Text(outputValue), new IntWritable(1));
+		
+		if(tag == FlickrSimilarityUtil.R_tag){
+			
+			long zorder = ZOrderValue.parseToZOrder(x, y);
+			
+			String outputValue = zorder + ":" + x + ":" + y;
+			
+			context.write(new Text(outputValue), new LongWritable(tag));
+			
+		}else{
+			for(int i = x-1; i <= x+1;i++){
+				for(int j = y-1;j <= y+1;j++){
+					
+					long zorder = ZOrderValue.parseToZOrder(i, j);
+					
+					String outputValue = zorder + ":" + i + ":" + j;
+					
+					context.write(new Text(outputValue), new LongWritable(tag));
+				}
+			}
+		}
+		
+		
+		
+		
+		
 		
 	}
 	protected void cleanup(Context context) throws IOException, InterruptedException {
