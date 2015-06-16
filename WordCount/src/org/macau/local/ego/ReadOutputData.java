@@ -21,14 +21,14 @@ public class ReadOutputData {
 	
 	public static void writeToFile(int i){
 		
-		File file = new File("D:\\360Downloads\\output_14\\part-s-00000");
+		File file = new File("D:\\360Downloads\\F_1\\part-r-00000");
         BufferedReader reader = null;
         
         int rCount = 0;
         int sCount = 0;
         
-        int GROUPNUMBER = 250;
-        int TotalNumber = 400000;
+        int GROUPNUMBER = 2000000;
+        int TotalNumber =20000000;
         System.out.println("good");
         
         try {
@@ -42,7 +42,7 @@ public class ReadOutputData {
             
             
             
-            String fileAddress = "D:/360Downloads/output_14_g/part-s-0000" + i;
+            String fileAddress = "D:/360Downloads/F_1_g/part-r-0000";
             
             File outputFile = new File(fileAddress);
             
@@ -63,16 +63,16 @@ public class ReadOutputData {
             		sCount++;
             		int group = sCount/GROUPNUMBER;
             		tempString = group + " " + tempString;
-            		if(group < groupArray[i+1] && group >= groupArray[i]){
-            			writer.write(tempString + "\n");
-            		}
             		
+            		writer.write(tempString + "\n");
             		
             	}else if (tag == FlickrSimilarityUtil.R_tag){
             		rCount++;
             		int group = rCount/GROUPNUMBER;
             		tempString = group + " " + tempString;
-            		
+//            		if(group < groupArray[i+1] && group >= groupArray[i]){
+            		writer.write(tempString + "\n");
+//            		}
             	}
             	
             }
@@ -178,9 +178,9 @@ public class ReadOutputData {
         }
 	}
 	public static void main(String[] args){
-		for(int i = 0; i < 4;i++){
-			writeToFile(i);
-		}
+//		for(int i = 0; i < 4;i++){
+			writeToFile(5);
+//		}
 //		getStatistic();
 		System.out.println("gg");
 	}
