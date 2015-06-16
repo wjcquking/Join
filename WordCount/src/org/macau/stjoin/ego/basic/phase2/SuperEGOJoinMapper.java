@@ -64,33 +64,48 @@ public class SuperEGOJoinMapper extends
 		outputValue.setTag(tag);
 		
 		//the textual information
-//		outputValue.setTiles(record.toString().split(":")[5]);
-//		outputValue.setOthers(record.toString().split(":")[6]);
-//		String textual = value.toString().split(":")[5];
+		outputValue.setTiles(record.toString().split(":")[5]);
+		outputValue.setOthers(record.toString().split(":")[6]);
+		String textual = value.toString().split(":")[5];
 		
-		outputValue.setTiles(record.toString().split(":")[4]);
-		outputValue.setOthers(record.toString().split(":")[5]);
-		String textual = value.toString().split(":")[4];
+//		outputValue.setTiles(record.toString().split(":")[4]);
+//		outputValue.setOthers(record.toString().split(":")[5]);
+//		String textual = value.toString().split(":")[4];
 		
 		outputValue.setTimestamp(timestamp);
 		
+		String rPartition = "1:1,2:1,2:2,3:3,4:4,5,6:5,6,7:7,8:8,9:9,10";
+		String sPartition = "1,2,3:2,3:4,5:5,6:6,7:6,7:7,8:8,9:9,10:10";
 		
 		
 		if(!textual.equals("null")){
 			if(tag == FlickrSimilarityUtil.S_tag){
 				
-				for(int i = 0; i < 10;i++){
+				for(String str : sPartition.split(":")[group].split(",")){
+					int i = Integer.parseInt(str)-1;
 					outputKey.set(group + " " + i);
 					outputValue.setTileNumber((int)timeInterval);
 					context.write(outputKey, outputValue);
 				}
+//				for(int i = 0; i < 10;i++){
+//					outputKey.set(group + " " + i);
+//					outputValue.setTileNumber((int)timeInterval);
+//					context.write(outputKey, outputValue);
+//				}
 			}else if(tag == FlickrSimilarityUtil.R_tag){
-				
-				for(int i = 0; i < 10;i++){
-					outputKey.set(i + " " + group) ;
+				for(String str : rPartition.split(":")[group].split(",")){
+					int i = Integer.parseInt(str)-1;
+					outputKey.set(i+ " " + group) ;
 					outputValue.setTileNumber((int)timeInterval);
 					context.write(outputKey, outputValue);
 				}
+				
+//				for(int i = group-1; i <= group;i++){
+//					outputKey.set(i + " " + group) ;
+//					outputValue.setTileNumber((int)timeInterval);
+//					context.write(outputKey, outputValue);
+//				}
+				
 			}
 		}
 		
