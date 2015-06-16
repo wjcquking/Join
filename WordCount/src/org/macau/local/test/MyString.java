@@ -22,5 +22,8 @@ class MyString implements Comparable<String> {
 //    	MyString a = "abc";
     	String b = "fuck";
 //    	a.compareTo(b);
+    	
+    	String temp = "0;";
+    	System.out.println(temp.substring(2));
     }
 } 
