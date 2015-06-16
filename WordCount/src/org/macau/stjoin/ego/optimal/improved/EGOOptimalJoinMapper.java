@@ -185,7 +185,7 @@ public class EGOOptimalJoinMapper extends
 //		int[][] bounds = {{27918,2114,112},{28118,2114,112},{28230,2114,112},{28342,2114,112},{28372,2114,112},{28408,2114,112},{28448,2114,112},{28490,2114,112},{28526,2114,112},{28558,2114,112},{28588,2114,112},{28618,2114,112},{28644,2114,112},{28674,2114,112},{28708,2114,112},{28742,2114,112},{28774,2114,112},{28808,2114,112},{28842,2114,112},{28872,2114,112},{28902,2114,112},{28932,2114,112},{28962,2114,112},{28996,2114,112},{29032,2114,112},{29106,2114,112},{29194,2114,112},{29338,2114,112},{29562,2114,112},{29724,2114,112}};
 		
 		//threshold is 0.1 and computation
-//		int[][] bounds = {{139590,2114,112},{140590,2114,112},{141150,2114,112},{141710,2114,112},{141860,2114,112},{142040,2114,112},{142240,2114,112},{142450,2114,112},{142630,2114,112},{142790,2114,112},{142940,2114,112},{143090,2114,112},{143220,2114,112},{143370,2114,112},{143540,2114,112},{143710,2114,112},{143870,2114,112},{144040,2114,112},{144210,2114,112},{144360,2114,112},{144510,2114,112},{144660,2114,112},{144810,2114,112},{144980,2114,112},{145160,2114,112},{145530,2114,112},{145970,2114,112},{146690,2114,112},{147810,2114,112},{148620,2114,112}};
+		int[][] bounds = {{139590,2114,112},{140590,2114,112},{141150,2114,112},{141710,2114,112},{141860,2114,112},{142040,2114,112},{142240,2114,112},{142450,2114,112},{142630,2114,112},{142790,2114,112},{142940,2114,112},{143090,2114,112},{143220,2114,112},{143370,2114,112},{143540,2114,112},{143710,2114,112},{143870,2114,112},{144040,2114,112},{144210,2114,112},{144360,2114,112},{144510,2114,112},{144660,2114,112},{144810,2114,112},{144980,2114,112},{145160,2114,112},{145530,2114,112},{145970,2114,112},{146690,2114,112},{147810,2114,112},{148620,2114,112}};
 		
 		//threshold is 0.01 and computation
 //		int[][] bounds = {{1395900,2114,112},{1405900,2114,112},{1411500,2114,112},{1417100,2114,112},{1418600,2114,112},{1420400,2114,112},{1422400,2114,112},{1424500,2114,112},{1426300,2114,112},{1427900,2114,112},{1429400,2114,112},{1430900,2114,112},{1432200,2114,112},{1433700,2114,112},{1435400,2114,112},{1437100,2114,112},{1438700,2114,112},{1440400,2114,112},{1442100,2114,112},{1443600,2114,112},{1445100,2114,112},{1446600,2114,112},{1448100,2114,112},{1449800,2114,112},{1451600,2114,112},{1455300,2114,112},{1459700,2114,112},{1466900,2114,112},{1478100,2114,112},{1486200,2114,112}};
@@ -279,7 +279,7 @@ public class EGOOptimalJoinMapper extends
 //		int[][] bounds = {{0,2114,112},{12960,2114,112},{13340,2114,112},{13520,2114,112},{13670,2114,112},{13780,2114,112},{13920,2114,112},{14030,2114,112},{14120,2114,112},{14220,2114,112},{14340,2114,112},{14420,2114,112},{14490,2114,112},{14570,2114,112},{14690,2114,112},{14770,2114,112},{14830,2114,112},{14900,2114,112},{15000,2114,112},{15090,2114,112},{15150,2114,112},{15220,2114,112},{15300,2114,112},{15420,2114,112},{15500,2114,112},{15570,2114,112},{15670,2114,112},{15800,2114,112},{15890,2114,112},{16000,2114,112}};
 		
 		//0.5 and data size
-		int[][] bounds = {{0,2114,112},{25920,2114,112},{26680,2114,112},{27040,2114,112},{27340,2114,112},{27560,2114,112},{27840,2114,112},{28060,2114,112},{28240,2114,112},{28440,2114,112},{28680,2114,112},{28840,2114,112},{28980,2114,112},{29140,2114,112},{29380,2114,112},{29540,2114,112},{29660,2114,112},{29800,2114,112},{30000,2114,112},{30180,2114,112},{30300,2114,112},{30440,2114,112},{30600,2114,112},{30840,2114,112},{31000,2114,112},{31140,2114,112},{31340,2114,112},{31600,2114,112},{31780,2114,112},{32000,2114,112}};
+//		int[][] bounds = {{0,2114,112},{25920,2114,112},{26680,2114,112},{27040,2114,112},{27340,2114,112},{27560,2114,112},{27840,2114,112},{28060,2114,112},{28240,2114,112},{28440,2114,112},{28680,2114,112},{28840,2114,112},{28980,2114,112},{29140,2114,112},{29380,2114,112},{29540,2114,112},{29660,2114,112},{29800,2114,112},{30000,2114,112},{30180,2114,112},{30300,2114,112},{30440,2114,112},{30600,2114,112},{30840,2114,112},{31000,2114,112},{31140,2114,112},{31340,2114,112},{31600,2114,112},{31780,2114,112},{32000,2114,112}};
 		
 		//0.1 and data size
 //		int[][] bounds = {{0,2114,112},{129600,2114,112},{133400,2114,112},{135200,2114,112},{136700,2114,112},{137800,2114,112},{139200,2114,112},{140300,2114,112},{141200,2114,112},{142200,2114,112},{143400,2114,112},{144200,2114,112},{144900,2114,112},{145700,2114,112},{146900,2114,112},{147700,2114,112},{148300,2114,112},{149000,2114,112},{150000,2114,112},{150900,2114,112},{151500,2114,112},{152200,2114,112},{153000,2114,112},{154200,2114,112},{155000,2114,112},{155700,2114,112},{156700,2114,112},{158000,2114,112},{158900,2114,112},{160000,2114,112}};
@@ -298,91 +298,176 @@ public class EGOOptimalJoinMapper extends
 		 ****************************************************************/
 		
 		
+//		if(!outputValue.getTiles().equals("null")){
+//		
+//		if(tag == FlickrSimilarityUtil.S_tag){
+//			
+//			int pNumber = 0;
+//			
+//			if(timeInterval >= bounds[bounds.length-1][0]){
+//				
+//				pNumber = bounds.length;
+//				
+//			}else{
+//				
+//				for(int i = 0; i < bounds.length;i++){
+//					
+//					if(timeInterval < bounds[i][0]){
+//						pNumber = i;
+//						break;
+//					}
+//				}
+//			}
+//			
+//			outputKey.set(pNumber);
+//			outputValue.setTileNumber((int)timeInterval );
+//			context.write(outputKey, outputValue);
+//			
+//			if(pNumber == 0){
+//				if(timeInterval- bounds[0][0] == -1){
+//					outputKey.set(pNumber+1);
+//					outputValue.setTileNumber((int)timeInterval );
+//					context.write(outputKey, outputValue);
+//				}
+//			}
+//			
+//			if(pNumber == bounds.length){
+//				if(timeInterval- bounds[bounds.length-1][0] == 0){
+//					outputKey.set(pNumber-1);
+//					outputValue.setTileNumber((int)timeInterval );
+//					context.write(outputKey, outputValue);
+//				}
+//			}
+//			
+//			
+//			if(pNumber >= 1 && pNumber <= bounds.length-1){
+//				
+//				if(timeInterval- bounds[pNumber-1][0] == 0){
+//					outputKey.set(pNumber-1);
+//					outputValue.setTileNumber((int)timeInterval );
+//					context.write(outputKey, outputValue);
+//				}
+//				
+//				
+//				if(timeInterval- bounds[pNumber][0] == -1){
+//					outputKey.set(pNumber+1);
+//					outputValue.setTileNumber((int)timeInterval );
+//					context.write(outputKey, outputValue);
+//				}
+//			}
+//			
+//			
+//		}else{
+//			
+//			int pNumber = 0;
+//			
+//			if(timeInterval >= bounds[bounds.length-1][0]){
+//				
+//				pNumber = bounds.length;
+//				
+//			}else{
+//				
+//				for(int i = 0; i < bounds.length;i++){
+//					
+//					if(timeInterval < bounds[i][0]){
+//						pNumber = i;
+//						break;
+//					}
+//				}
+//			}
+//			
+//			//for the R set
+//			outputKey.set(pNumber);
+//			outputValue.setTileNumber((int)timeInterval);
+//			context.write(outputKey, outputValue);
+//		}
+//		}
+		
 		if(!outputValue.getTiles().equals("null")){
-		
-		if(tag == FlickrSimilarityUtil.S_tag){
 			
-			int pNumber = 0;
-			
-			if(timeInterval >= bounds[bounds.length-1][0]){
+			if(tag == FlickrSimilarityUtil.S_tag){
 				
-				pNumber = bounds.length;
+				int pNumber = 0;
+				
+				if(timeInterval >= bounds[bounds.length-1][0]){
+					
+					pNumber = bounds.length;
+					
+				}else{
+					
+					for(int i = 0; i < bounds.length;i++){
+						
+						if(timeInterval < bounds[i][0]){
+							pNumber = i;
+							break;
+						}
+					}
+				}
+				
+				
+				if(pNumber == 0){
+					pNumber = 1;
+				}
+				outputKey.set(pNumber);
+				outputValue.setTileNumber((int)timeInterval );
+				context.write(outputKey, outputValue);
+				
+				
+				
+				if(pNumber == bounds.length){
+					if(timeInterval- bounds[bounds.length-1][0] == 0){
+						outputKey.set(pNumber-1);
+						outputValue.setTileNumber((int)timeInterval );
+						context.write(outputKey, outputValue);
+					}
+				}
+				
+				
+				if(pNumber >= 1 && pNumber <= bounds.length-1){
+					
+					if(timeInterval- bounds[pNumber-1][0] == 0){
+						outputKey.set(pNumber-1);
+						outputValue.setTileNumber((int)timeInterval );
+						context.write(outputKey, outputValue);
+					}
+					
+					
+					if(timeInterval- bounds[pNumber][0] == -1){
+						outputKey.set(pNumber+1);
+						outputValue.setTileNumber((int)timeInterval );
+						context.write(outputKey, outputValue);
+					}
+				}
+				
 				
 			}else{
 				
-				for(int i = 0; i < bounds.length;i++){
+				int pNumber = 0;
+				
+				if(timeInterval >= bounds[bounds.length-1][0]){
 					
-					if(timeInterval < bounds[i][0]){
-						pNumber = i;
-						break;
+					pNumber = bounds.length;
+					
+				}else{
+					
+					for(int i = 0; i < bounds.length;i++){
+						
+						if(timeInterval < bounds[i][0]){
+							pNumber = i;
+							break;
+						}
 					}
 				}
-			}
-			
-			outputKey.set(pNumber);
-			outputValue.setTileNumber((int)timeInterval );
-			context.write(outputKey, outputValue);
-			
-			if(pNumber == 0){
-				if(timeInterval- bounds[0][0] == -1){
-					outputKey.set(pNumber+1);
-					outputValue.setTileNumber((int)timeInterval );
-					context.write(outputKey, outputValue);
+				
+				if(pNumber == 0){
+					pNumber  = 1;
 				}
+				//for the R set
+				outputKey.set(pNumber);
+				outputValue.setTileNumber((int)timeInterval);
+				context.write(outputKey, outputValue);
 			}
-			
-			if(pNumber == bounds.length){
-				if(timeInterval- bounds[bounds.length-1][0] == 0){
-					outputKey.set(pNumber-1);
-					outputValue.setTileNumber((int)timeInterval );
-					context.write(outputKey, outputValue);
-				}
 			}
-			
-			
-			if(pNumber >= 1 && pNumber <= bounds.length-1){
-				
-				if(timeInterval- bounds[pNumber-1][0] == 0){
-					outputKey.set(pNumber-1);
-					outputValue.setTileNumber((int)timeInterval );
-					context.write(outputKey, outputValue);
-				}
-				
-				
-				if(timeInterval- bounds[pNumber][0] == -1){
-					outputKey.set(pNumber+1);
-					outputValue.setTileNumber((int)timeInterval );
-					context.write(outputKey, outputValue);
-				}
-			}
-			
-			
-		}else{
-			
-			int pNumber = 0;
-			
-			if(timeInterval >= bounds[bounds.length-1][0]){
-				
-				pNumber = bounds.length;
-				
-			}else{
-				
-				for(int i = 0; i < bounds.length;i++){
-					
-					if(timeInterval < bounds[i][0]){
-						pNumber = i;
-						break;
-					}
-				}
-			}
-			
-			//for the R set
-			outputKey.set(pNumber);
-			outputValue.setTileNumber((int)timeInterval);
-			context.write(outputKey, outputValue);
-		}
-		}
-		
 	
 		
 		
