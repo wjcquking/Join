@@ -14,17 +14,37 @@ public class FlickrSimilarityUtil {
 
 	//time threshold
 	// the "L" is very important
-//	public static final long TEMPORAL_THRESHOLD = 700L*86400000L;
-	public static final long TEMPORAL_THRESHOLD = 0L*86400000L + 0L*8640000L + 3L*864000L + 2L*86400L;
-//	public static final long TEMPORAL_THRESHOLD = 1L*2592000L;
-		
-	//spatial threshold, Unit : km
-//	public static final double DISTANCE_THRESHOLD = 0.0001;
-	public static final double DISTANCE_THRESHOLD = 0.00004;
-	 
-	//textual threshold
-	public static final double TEXTUAL_THRESHOLD = 0.2;
+////	public static final long TEMPORAL_THRESHOLD = 700L*86400000L;
+//	public static final long TEMPORAL_THRESHOLD = 10L*86400000L + 2L*8640000L + 2L*864000L + 0L*86400L;
+////	public static final long TEMPORAL_THRESHOLD = 1L*2592000L;
+//		
+////	public static final double DISTANCE_THRESHOLD = 0.0001;
+//	public static final double DISTANCE_THRESHOLD = 0.0000031;
+//	//textual threshold
+//	public static final double TEXTUAL_THRESHOLD = 0.143;
 	
+	//0.005
+	public static final long TEMPORAL_THRESHOLD = 5L*86400000L + 1L*8640000L + 1L*864000L + 0L*86400L;
+//	public static final double DISTANCE_THRESHOLD = 0.00000075;
+	public static final double TEXTUAL_THRESHOLD = 0.141;
+	
+	//0.001
+//	public static final long TEMPORAL_THRESHOLD = 0L*86400000L + 9L*8640000L + 5L*864000L + 0L*86400L;
+//	public static final double DISTANCE_THRESHOLD = 0.000000047;
+//	public static final double TEXTUAL_THRESHOLD = 0.32;
+
+	//0.0005
+//	public static final long TEMPORAL_THRESHOLD = 0L*86400000L + 4L*8640000L + 4L*864000L + 0L*86400L;
+	public static final double DISTANCE_THRESHOLD = 0.000000017;
+//	public static final double TEXTUAL_THRESHOLD = 0.45;
+	
+	//0.0001
+//	public static final long TEMPORAL_THRESHOLD = 0L*86400000L + 0L*8640000L + 7L*864000L + 0L*86400L;
+//	public static final double DISTANCE_THRESHOLD = 0.0000000023;
+//	public static final double TEXTUAL_THRESHOLD = 0.8;
+	
+	
+	public static final int loop = 2;
 	
 	//the other threshold
 	public static final long UPLOAD_THRESHOLD = 1L*86400L;
@@ -146,10 +166,10 @@ public class FlickrSimilarityUtil {
 	 */
 	public static double getTokenSimilarity(String iToken,String jToken){
 		
-//		List<String> itext = new ArrayList<String>(Arrays.asList(iToken.split(";")));
-//		List<String> jtext = new ArrayList<String>(Arrays.asList(jToken.split(";")));
-		List<String> itext = new ArrayList<String>(Arrays.asList(iToken.split(",")));
-		List<String> jtext = new ArrayList<String>(Arrays.asList(jToken.split(",")));
+		List<String> itext = new ArrayList<String>(Arrays.asList(iToken.split(";")));
+		List<String> jtext = new ArrayList<String>(Arrays.asList(jToken.split(";")));
+//		List<String> itext = new ArrayList<String>(Arrays.asList(iToken.split(",")));
+//		List<String> jtext = new ArrayList<String>(Arrays.asList(jToken.split(",")));
 		
 		int i_num = itext.size();
 		int j_num = jtext.size();
@@ -271,5 +291,36 @@ public class FlickrSimilarityUtil {
 			
 		}
 		
+	}
+	
+	public static String toFullBinaryString(int num){
+		char[] chs = new char[Integer.SIZE];
+		for(int i = 0; i < Integer.SIZE;i++){
+			chs[Integer.SIZE-1-i] = (char)(((num >> i) & 1) + '0');
+		}
+		return new String(chs);
+	}
+	/**
+	 * Find the z curve order (=vertex index) for the given grid cell 
+	 * coordinates.
+	 * @param x cell column (from 0)
+	 * @param y cell row (from 0)
+	 * @param r resolution of z curve (grid will have Math.pow(2,r) 
+	 * rows and cols)
+	 * @return z order value
+	 */
+	public static long parseToZOrder(int x, int y){
+		
+		String xString = toFullBinaryString(x);
+		String yString = toFullBinaryString(y);
+		String z = "";
+		char[] xChar = xString.toCharArray();
+		char[] yChar = yString.toCharArray();
+		for(int i = 0; i < xChar.length;i++){
+			z += yChar[i];
+			z += xChar[i];
+			
+		}
+		return Long.parseLong(z,2);
 	}
 }
