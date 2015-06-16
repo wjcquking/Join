@@ -123,6 +123,9 @@ Reducer<IntWritable, FlickrValue, Text, Text>{
 					for(int k = 0; k < sMap.get(i).size();k++){
 						FlickrValue value2 = sMap.get(i).get(k);
 							
+						for(int m = 0; m < FlickrSimilarityUtil.loop;m++){
+							FlickrSimilarityUtil.TextualSimilarity(value1, value2);
+						}
 						tCompareCount++;
 						if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
 							
@@ -150,6 +153,7 @@ Reducer<IntWritable, FlickrValue, Text, Text>{
 						            if(i.toString().equals(jtext.get(jtext.size()-1))){
 						            	text.set(ridA + "%" + ridB);
 						            	context.write(text, new Text(""));
+//						            	context.write(new Text("1"), new Text(""));
 						            }
 								}
 							}

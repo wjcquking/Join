@@ -99,18 +99,18 @@ public class TemporalJoinReducer extends
 			// Sort the List in the Map
 			for(java.util.Iterator<Integer> i = rMap.keySet().iterator();i.hasNext();){
 				
-				TemporalComparator comp = new TemporalComparator();
+//				TemporalComparator comp = new TemporalComparator();
 				int obj = i.next();
-				Collections.sort(rMap.get(obj),comp);
+//				Collections.sort(rMap.get(obj),comp);
 				rSetSize += rMap.get(obj).size();
 				
 			}
 			
 			for(java.util.Iterator<Integer> i = sMap.keySet().iterator();i.hasNext();){
 				
-				TemporalComparator comp = new TemporalComparator();
+//				TemporalComparator comp = new TemporalComparator();
 				int obj = i.next();
-				Collections.sort(sMap.get(obj),comp);
+//				Collections.sort(sMap.get(obj),comp);
 				sSetSize += sMap.get(obj).size();
 				
 			}
@@ -138,6 +138,11 @@ public class TemporalJoinReducer extends
 						for(int k = 0; k < sMap.get(i).size();k++){
 							FlickrValue value2 = sMap.get(i).get(k);
 							tCompareCount++;
+							
+							for(int m = 0; m < FlickrSimilarityUtil.loop;m++){
+								FlickrSimilarityUtil.TextualSimilarity(value1, value2);
+							}
+							
 							if(FlickrSimilarityUtil.TemporalSimilarity(value1, value2)){
 								sCompareCount++;
 								if(FlickrSimilarityUtil.SpatialSimilarity(value1, value2)){
@@ -158,6 +163,7 @@ public class TemporalJoinReducer extends
 						            
 							            text.set("" + ridA + "%" + ridB);
 							            context.write(text, new Text(""));
+//							            context.write(new Text("1"), new Text(""));
 									}
 								}
 							}
