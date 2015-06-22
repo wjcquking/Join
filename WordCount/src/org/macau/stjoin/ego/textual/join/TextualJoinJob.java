@@ -11,9 +11,9 @@ import org.macau.flickr.util.FlickrValue;
 
 public class TextualJoinJob {
 	
-public static boolean TextualSimilarityBasicJoin(Configuration conf,int reducerNumber) throws Exception{
+public static boolean TextualJoin(Configuration conf,int reducerNumber) throws Exception{
 		
-		Job basicJob = new Job(conf,"Textual Basic Similarity Join");
+		Job basicJob = new Job(conf,"Textual EGO Join");
 		basicJob.setJarByClass(TextualJoinJob.class);
 		
 		basicJob.setMapperClass(TextualJoinMapper.class);
